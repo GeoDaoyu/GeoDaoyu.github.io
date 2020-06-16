@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Nginx," />
+  <meta name="keywords" content="ArcGIS,ArcGIS JS API,CORS," />
 
 
 
@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="Nginx作为高性能的Web服务器，小巧、稳定、香。 官网文档链接：http:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;docs&#x2F; 下面介绍两种操作系统下的安装部署。">
+<meta name="description" content="网上有很多的本地部署ArcGIS API for JavaScript教程。 我翻译并简单修改了官网的部署教程（API解压后的install.html），整理如下。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Nginx基础-1:安装部署">
-<meta property="og:url" content="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-1-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:title" content="本地部署ArcGIS-JS-API">
+<meta property="og:url" content="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/06/16/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2ArcGIS-JS-API/index.html">
 <meta property="og:site_name" content="GeoDaoyu">
-<meta property="og:description" content="Nginx作为高性能的Web服务器，小巧、稳定、香。 官网文档链接：http:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;docs&#x2F; 下面介绍两种操作系统下的安装部署。">
+<meta property="og:description" content="网上有很多的本地部署ArcGIS API for JavaScript教程。 我翻译并简单修改了官网的部署教程（API解压后的install.html），整理如下。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/1568250404696.png">
-<meta property="article:published_time" content="2020-06-03T12:25:34.000Z">
-<meta property="article:modified_time" content="2020-06-03T12:46:55.853Z">
+<meta property="article:published_time" content="2020-06-16T12:05:43.000Z">
+<meta property="article:modified_time" content="2020-06-16T12:08:58.940Z">
 <meta property="article:author" content="GeoDaoyu">
-<meta property="article:tag" content="Nginx">
+<meta property="article:tag" content="ArcGIS">
+<meta property="article:tag" content="ArcGIS JS API">
+<meta property="article:tag" content="CORS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/1568250404696.png">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/06/03/Nginx基础-1-安装部署/"/>
+  <link rel="canonical" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/06/16/本地部署ArcGIS-JS-API/"/>
 
 
 
 
 
-  <title>Nginx基础-1:安装部署 | GeoDaoyu</title>
+  <title>本地部署ArcGIS-JS-API | GeoDaoyu</title>
   
 
 
@@ -299,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-1-%E5%AE%89%E8%A3%85%E9%83%A8%E7%BD%B2/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/06/16/%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2ArcGIS-JS-API/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="GeoDaoyu">
@@ -316,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Nginx基础-1:安装部署</h1>
+          <h1 class="post-title" itemprop="name headline">本地部署ArcGIS-JS-API</h1>
         
 
         <div class="post-meta">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-03T20:25:34+08:00">
-                2020-06-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-16T20:05:43+08:00">
+                2020-06-16
               </time>
             
 
@@ -344,8 +344,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-06-03T20:46:55+08:00">
-                2020-06-03
+              <time title="Post modified" itemprop="dateModified" datetime="2020-06-16T20:08:58+08:00">
+                2020-06-16
               </time>
             
           </span>
@@ -363,8 +363,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Nginx/" itemprop="url" rel="index">
-                    <span itemprop="name">Nginx</span>
+                  <a href="/categories/ArcGIS-JS-API/" itemprop="url" rel="index">
+                    <span itemprop="name">ArcGIS JS API</span>
                   </a>
                 </span>
 
@@ -394,7 +394,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  260
+                  1.1k
                 </span>
               
 
@@ -410,7 +410,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  1
+                  5
                 </span>
               
             </div>
@@ -431,31 +431,83 @@
       
 
       
-        <p>Nginx作为高性能的Web服务器，小巧、稳定、香。</p>
-<p>官网文档链接：<a href="http://nginx.org/en/docs/" target="_blank" rel="noopener">http://nginx.org/en/docs/</a></p>
-<p>下面介绍两种操作系统下的安装部署。</p>
+        <p>网上有很多的本地部署ArcGIS API for JavaScript教程。</p>
+<p>我翻译并简单修改了官网的部署教程（API解压后的install.html），整理如下。</p>
 <a id="more"></a>
-<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p>在<a href="http://nginx.org/en/download.html" target="_blank" rel="noopener">http://nginx.org/en/download.html</a>下载压缩包</p>
-<p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/1568250404696.png" alt="1568250404696"></p>
-<p>解压后即可使用</p>
-<p>配置在<code>nginx\conf</code>目录修改<code>nginx.conf</code></p>
-<p><strong>常用命令</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd nginx         -- 进入到nginx解压文件的目录</span><br><span class="line">start nginx      -- 启动</span><br><span class="line">nginx -s reload  -- 重新装载配置文件并重启</span><br><span class="line">nginx -s stop    -- 快速停止</span><br><span class="line">nginx -s quit    -- 正常停止</span><br></pre></td></tr></table></figure>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>官网下载压缩包，然后解压后放置到要部署的web服务器上，可能是IIS、Tomcat或Nginx。</p>
+<h2 id="修改代码"><a href="#修改代码" class="headerlink" title="修改代码"></a>修改代码</h2><ol>
+<li>打开文件<code>/var/www/html/arcgis_js_api/library/arcgis_js_api/library/4.15/dojo/dojo.js</code> 并检索 <code>[HOSTNAME_AND_PATH_TO_JSAPI]</code>, 然后用<code>www.example.com/arcgis_js_api/library/4.15/</code>替换.</li>
+<li>打开文件<code>/var/www/html/arcgis_js_api/library/arcgis_js_api/library/4.15/init.js</code> 并检索  <code>[HOSTNAME_AND_PATH_TO_JSAPI]</code>, 然后用<code>www.example.com/arcgis_js_api/library/4.15/</code>替换.</li>
+</ol>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>现在应该能够从你的web服务器使用以下URL访问ArcGIS API for JavaScript：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;www.example.com&#x2F;arcgis_js_api&#x2F;library&#x2F;4.15&#x2F;dojo&#x2F;dojo.js&quot;&gt;&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><p>官网安装说明：<a href="http://nginx.org/en/linux_packages.html#RHEL-CentOS" target="_blank" rel="noopener">http://nginx.org/en/linux_packages.html#RHEL-CentOS</a></p>
-<p>执行下面两个命令进行安装</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install yum-utils</span><br><span class="line">sudo yum install nginx</span><br></pre></td></tr></table></figure>
-
-<p>安装后，cd到<code>/usr/sbin/</code>目录下启动nginx</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/sbin</span><br><span class="line">./nginx</span><br></pre></td></tr></table></figure>
-
-<p>配置在<code>/etc/nginx</code>目录下修改<code>nginx.conf</code></p>
-<p><strong>常用命令</strong>：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd nginx         -- 进入到nginx解压文件的目录</span><br><span class="line">./nginx          -- 启动</span><br><span class="line">nginx -s reload  -- 重新装载配置文件并重启</span><br><span class="line">nginx -s stop    -- 快速停止</span><br><span class="line">nginx -s quit    -- 正常停止</span><br></pre></td></tr></table></figure>
+<p>为了测试是否部署成功，可以使用下面的测试页面。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=utf-8"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=1, maximum-scale=1,user-scalable=no"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Test Map<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://www.example.com/arcgis_js_api/library/4.15/dijit/themes/claro/claro.css"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://www.example.com/arcgis_js_api/library/4.15/esri/themes/light/main.css"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">      html,</span><br><span class="line">      body,</span><br><span class="line"><span class="css">      <span class="selector-id">#viewDiv</span> &#123;</span></span><br><span class="line">        margin: 0;</span><br><span class="line">        padding: 0;</span><br><span class="line">        width: 100%;</span><br><span class="line">        height: 100%;</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://www.example.com/arcgis_js_api/library/4.15/dojo/dojo.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">var</span> myMap, view;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">require</span>([</span></span><br><span class="line"><span class="actionscript">        <span class="string">"esri/Basemap"</span>,</span></span><br><span class="line"><span class="actionscript">        <span class="string">"esri/layers/TileLayer"</span>,</span></span><br><span class="line"><span class="actionscript">        <span class="string">"esri/Map"</span>,</span></span><br><span class="line"><span class="actionscript">        <span class="string">"esri/views/MapView"</span></span></span><br><span class="line"><span class="actionscript">      ], <span class="function"><span class="keyword">function</span> <span class="params">(Basemap, TileLayer, Map, MapView)</span></span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// --------------------------------------------------------------------</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// If you do not have public internet access then use the Basemap class</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// and point this URL to your own locally accessible cached service.</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">//</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// Otherwise you can just use one of the named hosted ArcGIS services.</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// --------------------------------------------------------------------</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> layer = <span class="keyword">new</span> TileLayer(&#123;</span></span><br><span class="line"><span class="actionscript">          url: <span class="string">"https://www.example.com/arcgis/rest/services/Folder/Custom_Base_Map/MapServer"</span></span></span><br><span class="line">        &#125;);</span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> customBasemap = <span class="keyword">new</span> Basemap(&#123;</span></span><br><span class="line">          baseLayers: [layer],</span><br><span class="line"><span class="actionscript">          title: <span class="string">"Custom Basemap"</span>,</span></span><br><span class="line"><span class="actionscript">          id: <span class="string">"myBasemap"</span></span></span><br><span class="line">        &#125;);</span><br><span class="line"><span class="javascript">        myMap = <span class="keyword">new</span> <span class="built_in">Map</span>(&#123;</span></span><br><span class="line">          basemap: customBasemap</span><br><span class="line">        &#125;);</span><br><span class="line"><span class="actionscript">        view = <span class="keyword">new</span> MapView(&#123;</span></span><br><span class="line"><span class="actionscript">          center: [<span class="number">-111.87</span>, <span class="number">40.57</span>], <span class="comment">// long, lat</span></span></span><br><span class="line"><span class="actionscript">          container: <span class="string">"viewDiv"</span>,</span></span><br><span class="line">          map: myMap,</span><br><span class="line">          zoom: 6</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">class</span>=<span class="string">"claro"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"viewDiv"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>注：linux下如果启动失败，报错缺失日志文件，则在对应路径下新建日志文件。</p>
+<p><em>注意</em>：1. 修改页面中的链接；2. 使用http或https协议，请勿使用file协议访问页面。</p>
 </blockquote>
+<h2 id="使用HTTP"><a href="#使用HTTP" class="headerlink" title="使用HTTP"></a>使用HTTP</h2><p>如果你希望使用<code>http</code>来使用API，那么在修改代码步骤中，用<code>http</code>代替<code>https</code>，如，</p>
+<p>修改前: <code>baseUrl:&quot;https://www.example.com/arcgis_js_api/library/4.15/dojo&quot;</code></p>
+<p>修改后: <code>baseUrl:&quot;http://www.example.com/arcgis_js_api/library/4.15/dojo&quot;</code></p>
+<h2 id="字体跨域"><a href="#字体跨域" class="headerlink" title="字体跨域"></a>字体跨域</h2><p>在开发模式下，可能会出现字体跨域，导致微件上的图标无法显示。下面列举在不同服务器上通过允许跨域来处理。</p>
+<h3 id="IIS"><a href="#IIS" class="headerlink" title="IIS"></a>IIS</h3><ol>
+<li><p>打开IIS管理器</p>
+</li>
+<li><p>选中部署API的网站，找到<strong><em>HTTP响应标头</em></strong>和<strong><em>MIME类型</em></strong></p>
+</li>
+<li><p>配置MIME类型<br>有下列的类型需要注册：</p>
+<table>
+<thead>
+<tr>
+<th>extension</th>
+<th><code>MIME/type</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>.ttf</code></td>
+<td><code>application/octet-stream</code></td>
+<td>True Type Fonts</td>
+</tr>
+<tr>
+<td><code>.wasm</code></td>
+<td><code>application/wasm</code></td>
+<td><a href="http://webassembly.org/" target="_blank" rel="noopener">WebAssembly</a></td>
+</tr>
+<tr>
+<td><code>.woff</code></td>
+<td><code>application/font-woff</code></td>
+<td><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/WOFF" target="_blank" rel="noopener">Web Open Font Format</a></td>
+</tr>
+<tr>
+<td><code>.woff2</code></td>
+<td><code>application/font-woff2</code></td>
+<td><a href="https://www.w3.org/TR/WOFF2/" target="_blank" rel="noopener">WOFF File Format 2.0</a></td>
+</tr>
+<tr>
+<td><code>.wsv</code></td>
+<td><code>application/octet-stream</code></td>
+<td>Supports <code>SceneView</code>‘s stars visualization</td>
+</tr>
+</tbody></table>
+<p>点击<strong><em>MIME类型</em></strong>，右键选择<strong>打开功能</strong>，然后右键选择<strong>添加</strong>。</p>
+</li>
+<li><p>配置HTTP响应标头<br>点击<strong><em>HTTP响应标头</em></strong>，右键选择<strong>打开功能</strong>，然后右键选择<strong>添加</strong>。<br>添加名称：<code>Access-Control-Allow-Origin</code> ，值：<code>*</code>。</p>
+</li>
+</ol>
+<h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><p>修改Tomcat配置文件，安装目录下的<code>conf/web.xml</code>。</p>
+<p>按照<a href="http://tomcat.apache.org/tomcat-8.0-doc/config/filter.html#CORS_Filter" target="_blank" rel="noopener">官网说明</a>在<code>&lt;!-- ================== Built In Filter Definitions ===================== --&gt;</code>之后增加一段配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CorsFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.apache.catalina.filters.CorsFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>cors.allowed.origins<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>*<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>cors.allowed.methods<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>GET,POST,HEAD,OPTIONS,PUT<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>cors.allowed.headers<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>cors.exposed.headers<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>Access-Control-Allow-Origin,Access-Control-Allow-Credentials<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>cors.support.credentials<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>cors.preflight.maxage<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>10<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>CorsFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：当cors.allowed.origins设置为*时，cors.support.credentials不能设置为true。</p>
+</blockquote>
+<h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><p>修改Nginx配置文件，</p>
+<p>增加一行<code>add_header Access-Control-Allow-Origin *;</code>如，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;arcgis&#x2F;api &#123;</span><br><span class="line">	add_header Access-Control-Allow-Origin *;</span><br><span class="line">	alias C:&#x2F;Resource&#x2F;arcgis&#x2F;api;</span><br><span class="line">	index dojo&#x2F;dojo.js;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -473,7 +525,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+            <a href="/tags/ArcGIS/" rel="tag"># ArcGIS</a>
+          
+            <a href="/tags/ArcGIS-JS-API/" rel="tag"># ArcGIS JS API</a>
+          
+            <a href="/tags/CORS/" rel="tag"># CORS</a>
           
         </div>
       
@@ -486,8 +542,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/06/02/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="next" title="个人博客搭建">
-                <i class="fa fa-chevron-left"></i> 个人博客搭建
+              <a href="/2020/06/10/WebSocket%E5%9C%A8SpringBoot%E4%B8%8B%E7%9A%84%E5%AE%9E%E8%B7%B5/" rel="next" title="WebSocket在SpringBoot下的实践">
+                <i class="fa fa-chevron-left"></i> WebSocket在SpringBoot下的实践
               </a>
             
           </div>
@@ -496,8 +552,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-2-%E6%AD%A3%E5%90%91%E4%BB%A3%E7%90%86/" rel="prev" title="Nginx基础-2:正向代理">
-                Nginx基础-2:正向代理 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/06/16/%E6%9F%A5%E7%9C%8B%E5%92%8C%E7%94%9F%E6%88%90ssh%E5%85%AC%E9%92%A5/" rel="prev" title="查看和生成ssh公钥">
+                查看和生成ssh公钥 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -664,7 +720,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows"><span class="nav-number">1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">2.</span> <span class="nav-text">Linux</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-number">1.</span> <span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改代码"><span class="nav-number">2.</span> <span class="nav-text">修改代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">3.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用HTTP"><span class="nav-number">4.</span> <span class="nav-text">使用HTTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字体跨域"><span class="nav-number">5.</span> <span class="nav-text">字体跨域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IIS"><span class="nav-number">5.1.</span> <span class="nav-text">IIS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat"><span class="nav-number">5.2.</span> <span class="nav-text">Tomcat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Nginx"><span class="nav-number">5.3.</span> <span class="nav-text">Nginx</span></a></li></ol></li></ol></div>
             
 
           </div>
