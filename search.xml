@@ -470,4 +470,53 @@
         <tag>ssh</tag>
       </tags>
   </entry>
+  <entry>
+    <title>CSS使用外部字体</title>
+    <url>/2020/06/28/CSS%E4%BD%BF%E7%94%A8%E5%A4%96%E9%83%A8%E5%AD%97%E4%BD%93/</url>
+    <content><![CDATA[<p>UI提供的字体，浏览器并没有，需要手动引入。</p>
+<p>以普惠体为例，引入方式如下：</p>
+<a id="more"></a>
+<ol>
+<li><p>下载<code>.ttf</code>文件，然后在全局的CSS中用路径引入。</p>
+   <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="keyword">@font-face</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: AlibabaPuHuiTi;</span><br><span class="line">  <span class="attribute">src</span>: <span class="built_in">url</span>(<span class="string">"./fonts/Alibaba-PuHuiTi.ttf"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>webpack打包部署，可能需要考虑路径指向。</p>
+</blockquote>
+</li>
+<li><p>使用示例</p>
+   <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">html</span>,<span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: AlibabaPuHuiTi;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+        <tag>font</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>修改hr标签样式</title>
+    <url>/2020/06/28/%E4%BF%AE%E6%94%B9hr%E6%A0%87%E7%AD%BE%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<p>一段来自的w3school介绍：</p>
+<blockquote>
+<p><code>&lt;hr&gt;</code>标签在 HTML 页面中创建一条水平线。</p>
+<p>水平分隔线（horizontal rule）可以在<em>视觉上</em>将文档分隔成各个部分。</p>
+</blockquote>
+<p><code>&lt;hr&gt;</code>标签的表现，像一个内容为空的div。</p>
+<p>那么通过设置border的样式，则可以修改hr的样式。</p>
+<a id="more"></a>
+<p>例如：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">hr</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">  <span class="attribute">border-bottom</span>: <span class="number">1px</span> solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+        <tag>HTML</tag>
+      </tags>
+  </entry>
 </search>
