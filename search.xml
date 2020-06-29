@@ -519,4 +519,37 @@
         <tag>HTML</tag>
       </tags>
   </entry>
+  <entry>
+    <title>设置滚动条样式</title>
+    <url>/2020/06/29/%E8%AE%BE%E7%BD%AE%E6%BB%9A%E5%8A%A8%E6%9D%A1%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<p>不使用插件，通过CSS设置滚动条样式。</p>
+<p>你可以使用以下伪元素选择器去修改各式webkit浏览器的滚动条样式：</p>
+<ul>
+<li><code>::-webkit-scrollbar</code> — 整个滚动条.</li>
+<li><code>::-webkit-scrollbar-button</code> — 滚动条上的按钮 (上下箭头).</li>
+<li><code>::-webkit-scrollbar-thumb</code> — 滚动条上的滚动滑块.</li>
+<li><code>::-webkit-scrollbar-track</code> — 滚动条轨道.</li>
+<li><code>::-webkit-scrollbar-track-piece</code> — 滚动条没有滑块的轨道部分.</li>
+<li><code>::-webkit-scrollbar-corner</code> — 当同时有垂直滚动条和水平滚动条时交汇的部分.</li>
+<li><code>::-webkit-resizer</code> — 某些元素的corner部分的部分样式(如:textarea的可拖动按钮).<a id="more"></a>
+<h2 id="设置浏览器滚动条"><a href="#设置浏览器滚动条" class="headerlink" title="设置浏览器滚动条"></a>设置浏览器滚动条</h2></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">// 滚动条凹槽的颜色，还可以设置边框属性</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar-track-piece</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#f8f8f8</span>;</span><br><span class="line">&#125;</span><br><span class="line">// 滚动条的宽度</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">3px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">3px</span>;</span><br><span class="line">&#125;</span><br><span class="line">// 滚动条的滑块</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar-thumb</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ddd</span>;</span><br><span class="line">  <span class="attribute">background-clip</span>: padding-box;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">30px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-pseudo">::-webkit-scrollbar-thumb</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">	<span class="attribute">background-color</span>: <span class="number">#bbb</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="设置div滚动条"><a href="#设置div滚动条" class="headerlink" title="设置div滚动条"></a>设置div滚动条</h2><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"scroll"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.scroll</span><span class="selector-pseudo">::-webkit-scrollbar</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">8px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.scroll</span><span class="selector-pseudo">::-webkit-scrollbar-track</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: orange;</span><br><span class="line">  <span class="attribute">-webkit-border-radius</span>: <span class="number">2em</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">2em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.scroll</span><span class="selector-pseudo">::-webkit-scrollbar-thumb</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: green;</span><br><span class="line">  <span class="attribute">-webkit-border-radius</span>: <span class="number">2em</span>;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">2em</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用jQuery控制滚动条"><a href="#使用jQuery控制滚动条" class="headerlink" title="使用jQuery控制滚动条"></a>使用jQuery控制滚动条</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">$(<span class="keyword">this</span>).animate(&#123; <span class="attr">scrollTop</span>: <span class="string">"+=50"</span> &#125;, <span class="number">1000</span>); <span class="comment">// 竖直</span></span><br><span class="line">$(<span class="keyword">this</span>).animate(&#123; <span class="attr">scrollLeft</span>: <span class="string">"+=50"</span> &#125;, <span class="number">1000</span>); <span class="comment">// 水平</span></span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<p>$(this)表示要滚动的对象，-=50表示向上（左）滚动50px ， +=50表示向下（右）滚动50px ，1000表示滚动速度，可能的值：毫秒、”slow”、”fast”。</p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+      </tags>
+  </entry>
 </search>
