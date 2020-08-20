@@ -1037,4 +1037,26 @@
         <tag>border</tag>
       </tags>
   </entry>
+  <entry>
+    <title>二维样式受高程影响显示异常</title>
+    <url>/2020/08/20/%E4%BA%8C%E7%BB%B4%E6%A0%B7%E5%BC%8F%E5%8F%97%E9%AB%98%E7%A8%8B%E5%BD%B1%E5%93%8D%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8/</url>
+    <content><![CDATA[<p>遇到个问题，二维样式在三维下，显示异常：显示不全，样式随地图拖拽会闪烁、变化。如下图：</p>
+<a id="more"></a>
+<p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/image-20200814105022173.png" alt="image-20200814105022173"></p>
+<p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/image-20200814105110911.png" alt="image-20200814105110911"></p>
+<p>代码中symbol设置：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> symbol = &#123;</span><br><span class="line">  type: <span class="string">"simple-fill"</span>,  <span class="comment">// autocasts as new SimpleFillSymbol()</span></span><br><span class="line">  color: [ <span class="number">51</span>,<span class="number">51</span>, <span class="number">204</span>, <span class="number">0.9</span> ],</span><br><span class="line">  style: <span class="string">"solid"</span>,</span><br><span class="line">  outline: &#123;  <span class="comment">// autocasts as new SimpleLineSymbol()</span></span><br><span class="line">    color: <span class="string">"white"</span>,</span><br><span class="line">    width: <span class="number">1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>问题原因及解决方法：</p>
+<p>受到高程影响，导致部分面要素被遮盖。</p>
+<p>设置<code>FeatureLayer</code>的<code>elevationInfo</code>属性：</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> layer = <span class="keyword">new</span> FeatureLayer(&#123;</span><br><span class="line">  ...,</span><br><span class="line">  elevationInfo: &#123;</span><br><span class="line">    mode: <span class="string">"on-the-ground"</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ArcGIS-JS-API</category>
+      </categories>
+      <tags>
+        <tag>elevationInfo</tag>
+      </tags>
+  </entry>
 </search>
