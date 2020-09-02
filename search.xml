@@ -1013,7 +1013,7 @@
     <title>空心圆样式</title>
     <url>/2020/08/13/%E7%A9%BA%E5%BF%83%E5%9C%86%E6%A0%B7%E5%BC%8F/</url>
     <content><![CDATA[<p>UI设计了一个空心圆样式，所以这边找了段CSS代码来实现：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">div &#123;</span><br><span class="line">  width: 100px;</span><br><span class="line">  height: 100px;</span><br><span class="line">  background-color: red;</span><br><span class="line">  border-radius: 50%;</span><br><span class="line">  border: 20px solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">20px</span> solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>参数说明：</p>
 <ul>
@@ -1057,6 +1057,34 @@
       </categories>
       <tags>
         <tag>elevationInfo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>空心矩形样式</title>
+    <url>/2020/09/02/%E7%A9%BA%E5%BF%83%E7%9F%A9%E5%BD%A2%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<p>UI设计了一个空心矩形样式，所以这边找了段CSS代码来实现：</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-tag">div</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">80px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: red;</span><br><span class="line">  <span class="attribute">background-clip</span>: content-box;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">40px</span> solid orange;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><code>background-color</code>—控制圆心颜色.</li>
+<li><code>background-clip</code>—规定背景的绘制区域.</li>
+<li><code>border</code>— 控制外环大小和颜色.<a id="more"></a>
+<blockquote>
+<p>注：如果不设置<code>background-clip</code>，在border有透明度的时候，会透到下方的background，这也证明background默认是包括了border的。</p>
+</blockquote>
+</li>
+</ul>
+<p>实现效果如下：</p>
+<p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/image-20200902174907882.png" alt="image-20200902174907882"></p>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>CSS</tag>
+        <tag>border</tag>
+        <tag>background</tag>
       </tags>
   </entry>
 </search>
