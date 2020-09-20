@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="背景接口返回的是geojson格式，但是使用GeojsonLayer加载的时候，高亮的坐标有问题。排查发现，是接口返回的坐标全是string类型。 所以要写一个方法，把string类型的坐标转换为double类型，其他的数据保持不变。">
+<meta name="description" content="在函数组合时，如果有异步操作，那么ramda中compose应该怎么写呢？ 在写空间查询例子的时候，就遇到了这个问题，其中doQuery方法是一个异步函数。 解决方法是一个andThen函数。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="修改服务字段类型">
-<meta property="og:url" content="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/09/14/%E4%BF%AE%E6%94%B9%E6%9C%8D%E5%8A%A1%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:title" content="ramda-compose中包含异步操作">
+<meta property="og:url" content="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/09/20/ramda-compose%E4%B8%AD%E5%8C%85%E5%90%AB%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/index.html">
 <meta property="og:site_name" content="GeoDaoyu">
-<meta property="og:description" content="背景接口返回的是geojson格式，但是使用GeojsonLayer加载的时候，高亮的坐标有问题。排查发现，是接口返回的坐标全是string类型。 所以要写一个方法，把string类型的坐标转换为double类型，其他的数据保持不变。">
+<meta property="og:description" content="在函数组合时，如果有异步操作，那么ramda中compose应该怎么写呢？ 在写空间查询例子的时候，就遇到了这个问题，其中doQuery方法是一个异步函数。 解决方法是一个andThen函数。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-14T12:54:56.000Z">
-<meta property="article:modified_time" content="2020-09-14T12:55:30.816Z">
+<meta property="article:published_time" content="2020-09-20T08:42:18.000Z">
+<meta property="article:modified_time" content="2020-09-20T08:45:47.344Z">
 <meta property="article:author" content="GeoDaoyu">
 <meta property="article:tag" content="Ramda">
 <meta name="twitter:card" content="summary">
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/09/14/修改服务字段类型/"/>
+  <link rel="canonical" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/09/20/ramda-compose中包含异步操作/"/>
 
 
 
 
 
-  <title>修改服务字段类型 | GeoDaoyu</title>
+  <title>ramda-compose中包含异步操作 | GeoDaoyu</title>
   
 
 
@@ -297,7 +297,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/09/14/%E4%BF%AE%E6%94%B9%E6%9C%8D%E5%8A%A1%E5%AD%97%E6%AE%B5%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2020/09/20/ramda-compose%E4%B8%AD%E5%8C%85%E5%90%AB%E5%BC%82%E6%AD%A5%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="GeoDaoyu">
@@ -314,7 +314,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">修改服务字段类型</h1>
+          <h1 class="post-title" itemprop="name headline">ramda-compose中包含异步操作</h1>
         
 
         <div class="post-meta">
@@ -326,8 +326,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-14T20:54:56+08:00">
-                2020-09-14
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-20T16:42:18+08:00">
+                2020-09-20
               </time>
             
 
@@ -342,8 +342,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2020-09-14T20:55:30+08:00">
-                2020-09-14
+              <time title="Post modified" itemprop="dateModified" datetime="2020-09-20T16:45:47+08:00">
+                2020-09-20
               </time>
             
           </span>
@@ -392,7 +392,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  499
+                  310
                 </span>
               
 
@@ -408,7 +408,7 @@
                   <span class="post-meta-item-text">Reading time &asymp;</span>
                 
                 <span title="Reading time">
-                  2
+                  1
                 </span>
               
             </div>
@@ -429,16 +429,13 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>接口返回的是geojson格式，但是使用GeojsonLayer加载的时候，高亮的坐标有问题。排查发现，是接口返回的坐标全是string类型。</p>
-<p>所以要写一个方法，把string类型的坐标转换为double类型，其他的数据保持不变。</p>
+        <p>在函数组合时，如果有异步操作，那么ramda中compose应该怎么写呢？</p>
+<p>在写空间查询例子的时候，就遇到了这个问题，其中doQuery方法是一个异步函数。</p>
+<p>解决方法是一个andThen函数。</p>
 <a id="more"></a>
-<p>转换的格式如下：</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"FeatureCollection"</span>,</span><br><span class="line">  <span class="attr">"features"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"Feature"</span>,</span><br><span class="line">      <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"ID"</span>: <span class="string">"1"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"geometry"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"Point"</span>,</span><br><span class="line">        <span class="attr">"coordinates"</span>: [</span><br><span class="line">          <span class="string">"120.98058226222103"</span>,</span><br><span class="line">          <span class="string">"31.19176762858661"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"Feature"</span>,</span><br><span class="line">      <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"ID"</span>: <span class="string">"5"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"geometry"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"Point"</span>,</span><br><span class="line">        <span class="attr">"coordinates"</span>: [</span><br><span class="line">          <span class="string">"121.0442694"</span>,</span><br><span class="line">          <span class="string">"31.27477222"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">-&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"type"</span>: <span class="string">"FeatureCollection"</span>,</span><br><span class="line">  <span class="attr">"features"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"Feature"</span>,</span><br><span class="line">      <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"ID"</span>: <span class="string">"1"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"geometry"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"Point"</span>,</span><br><span class="line">        <span class="attr">"coordinates"</span>: [</span><br><span class="line">          <span class="number">120.98058226222103</span>,</span><br><span class="line">          <span class="number">31.19176762858661</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"type"</span>: <span class="string">"Feature"</span>,</span><br><span class="line">      <span class="attr">"properties"</span>: &#123;</span><br><span class="line">        <span class="attr">"ID"</span>: <span class="string">"5"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"geometry"</span>: &#123;</span><br><span class="line">        <span class="attr">"type"</span>: <span class="string">"Point"</span>,</span><br><span class="line">        <span class="attr">"coordinates"</span>: [</span><br><span class="line">          <span class="number">121.0442694</span>,</span><br><span class="line">          <span class="number">31.27477222</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// highLight上图</span></span><br><span class="line"><span class="keyword">let</span> highLightHandler: __esri.Handle = <span class="literal">null</span>;</span><br><span class="line"><span class="keyword">const</span> highLight = <span class="function">(<span class="params">features: <span class="built_in">Array</span>&lt;Graphic&gt;</span>) =&gt;</span> &#123;</span><br><span class="line">  view.whenLayerView(featureLayer).then(<span class="function"><span class="params">layerView</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (highLightHandler) &#123;</span><br><span class="line">      highLightHandler.remove(); <span class="comment">// 清空高亮</span></span><br><span class="line">    &#125;</span><br><span class="line">    highLightHandler = layerView.highlight(features);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用查询条件查询返回查询结果</span></span><br><span class="line"><span class="comment">// @ts-ignore</span></span><br><span class="line"><span class="keyword">const</span> doQuery = <span class="keyword">async</span> query =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> result = <span class="keyword">await</span> featureLayer.queryFeatures(query);</span><br><span class="line">  <span class="keyword">const</span> &#123; features &#125; = result;</span><br><span class="line">  <span class="keyword">return</span> features;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用绘制的图形生成查询条件</span></span><br><span class="line"><span class="keyword">const</span> generateQuery = <span class="function">(<span class="params">geometry: Geometry</span>) =&gt;</span> <span class="keyword">new</span> Query(&#123;</span><br><span class="line">  returnGeometry: <span class="literal">true</span>,</span><br><span class="line">  outFields: [<span class="string">"NAME"</span>, <span class="string">"OBJECTID"</span>], <span class="comment">// highlight必须要OBJECTID字段</span></span><br><span class="line">  geometry,</span><br><span class="line">  outSpatialReference: view.spatialReference,</span><br><span class="line">  spatialRelationship: <span class="string">"intersects"</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询结果展示到控制台</span></span><br><span class="line"><span class="keyword">const</span> showInTable = <span class="function">(<span class="params">features: Graphic[]</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> attributes = features.map(<span class="function"><span class="params">feature</span> =&gt;</span> feature.attributes);</span><br><span class="line">  <span class="built_in">console</span>.table(attributes);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 处理查询结果</span></span><br><span class="line"><span class="keyword">const</span> showQueryResult = <span class="function">(<span class="params">features: Graphic[]</span>) =&gt;</span> &#123;</span><br><span class="line">  showInTable(features);</span><br><span class="line">  highLight(features);</span><br><span class="line">  graphicsLayer.removeAll(); <span class="comment">// 清空绘制图形</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> workFlow = R.compose(</span><br><span class="line">  R.andThen(showQueryResult), <span class="comment">// 处理查询结果</span></span><br><span class="line">  doQuery,                    <span class="comment">// 使用查询条件查询返回查询结果      </span></span><br><span class="line">  generateQuery               <span class="comment">// 使用绘制的图形生成查询条件</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2.在绘制结束，拿到绘制的图形</span></span><br><span class="line">sketch.on(<span class="string">"create"</span>, event =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (event.state === <span class="string">"complete"</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> geometry = event.graphic.geometry;</span><br><span class="line">    workFlow(geometry);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Ramda<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span></span><br><span class="line">    textarea &#123;</span><br><span class="line">      width: 100%;</span><br><span class="line">    &#125;</span><br><span class="line">  <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//cdnjs.cloudflare.com/ajax/libs/ramda/0.27.0/ramda.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onload</span>=<span class="string">"workFlow()"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">textarea</span> <span class="attr">cols</span>=<span class="string">"100"</span> <span class="attr">rows</span>=<span class="string">"50"</span>&gt;</span><span class="tag">&lt;/<span class="name">textarea</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> getResponse = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="actionscript">        <span class="string">"type"</span>: <span class="string">"FeatureCollection"</span>,</span></span><br><span class="line"><span class="actionscript">        <span class="string">"features"</span>: [&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="string">"type"</span>: <span class="string">"Feature"</span>,</span></span><br><span class="line"><span class="actionscript">            <span class="string">"properties"</span>: &#123;</span></span><br><span class="line"><span class="actionscript">              <span class="string">"ID"</span>: <span class="string">"1"</span>,</span></span><br><span class="line">            &#125;,</span><br><span class="line"><span class="actionscript">            <span class="string">"geometry"</span>: &#123;</span></span><br><span class="line"><span class="actionscript">              <span class="string">"type"</span>: <span class="string">"Point"</span>,</span></span><br><span class="line"><span class="actionscript">              <span class="string">"coordinates"</span>: [</span></span><br><span class="line"><span class="actionscript">                <span class="string">"120.98058226222103"</span>,</span></span><br><span class="line"><span class="actionscript">                <span class="string">"31.19176762858661"</span></span></span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line"><span class="actionscript">            <span class="string">"type"</span>: <span class="string">"Feature"</span>,</span></span><br><span class="line"><span class="actionscript">            <span class="string">"properties"</span>: &#123;</span></span><br><span class="line"><span class="actionscript">              <span class="string">"ID"</span>: <span class="string">"5"</span>,</span></span><br><span class="line">            &#125;,</span><br><span class="line"><span class="actionscript">            <span class="string">"geometry"</span>: &#123;</span></span><br><span class="line"><span class="actionscript">              <span class="string">"type"</span>: <span class="string">"Point"</span>,</span></span><br><span class="line"><span class="actionscript">              <span class="string">"coordinates"</span>: [</span></span><br><span class="line"><span class="actionscript">                <span class="string">"121.0442694"</span>,</span></span><br><span class="line"><span class="actionscript">                <span class="string">"31.27477222"</span></span></span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> workFlow = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> response = getResponse();</span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> featuresLens = R.lensProp(<span class="string">'features'</span>); <span class="comment">// 使用透镜获取features属性</span></span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> coordinatesLens = R.lensPath([<span class="string">'geometry'</span>, <span class="string">'coordinates'</span>]); <span class="comment">// 使用透镜获取coordinates属性</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> coordinates2num = R.map(<span class="built_in">Number</span>); <span class="comment">// 把坐标值从字符串转为数字</span></span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> overFeatures = R.over(coordinatesLens, coordinates2num); <span class="comment">// 修改features中coordinates的值</span></span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> mapFeatures = R.map(overFeatures); <span class="comment">// 遍历features</span></span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> overResponse = R.over(featuresLens, mapFeatures); <span class="comment">// 修改response中features的值</span></span></span><br><span class="line"><span class="actionscript">      <span class="keyword">const</span> result = overResponse(response);</span></span><br><span class="line">      print(response);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 打印结果相关</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> setTextarea = <span class="function"><span class="params">str</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">document</span>.getElementsByTagName(<span class="string">"textarea"</span>)[<span class="number">0</span>].value = str;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> stringify = <span class="function"><span class="params">json</span> =&gt;</span> <span class="built_in">JSON</span>.stringify(json, <span class="literal">null</span>, <span class="string">"  "</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> print = R.compose(</span></span><br><span class="line">      setTextarea,</span><br><span class="line">      stringify</span><br><span class="line">    );</span><br><span class="line"><span class="actionscript">    <span class="comment">// 打印结果相关</span></span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>按平时ES6的写法，循环遍历，然后修改值。破坏了数据不变。</p>
-<p>ramda的写法明显要更复杂一些。</p>
 
       
     </div>
@@ -469,8 +466,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/09/14/ramda%E5%88%9D%E4%BD%93%E9%AA%8C-%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2/" rel="next" title="ramda初体验-数据转换">
-                <i class="fa fa-chevron-left"></i> ramda初体验-数据转换
+              <a href="/2020/09/18/%E6%89%8B%E5%86%99Promise/" rel="next" title="手写Promise">
+                <i class="fa fa-chevron-left"></i> 手写Promise
               </a>
             
           </div>
@@ -478,10 +475,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/09/14/ramda-curd/" rel="prev" title="ramda-curd">
-                ramda-curd <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -533,17 +526,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -637,22 +621,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-number">3.</span> <span class="nav-text">结束语</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
