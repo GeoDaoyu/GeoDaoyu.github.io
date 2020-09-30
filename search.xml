@@ -1283,6 +1283,7 @@
     <content><![CDATA[<p>Promise的执行顺序会设计到JavaScript的事件循环。</p>
 <p>找到一张图，来理解：</p>
 <p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/eventloop-1600651261570.png" alt="eventloop"></p>
+<a id="more"></a>
 <ol>
 <li>宏队列: 用来保存待执行的宏任务(回调), 比如: 定时器回调/DOM事件回调/ajax回调</li>
 <li>微队列: 用来保存待执行的微任务(回调), 比如: promise的回调/MutationObserver的回调</li>
