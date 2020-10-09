@@ -1308,4 +1308,41 @@
         <tag>ES6+</tag>
       </tags>
   </entry>
+  <entry>
+    <title>umi学习大纲梳理</title>
+    <url>/2020/10/09/umi%E5%AD%A6%E4%B9%A0%E5%A4%A7%E7%BA%B2%E6%A2%B3%E7%90%86/</url>
+    <content><![CDATA[<h1 id="UmiJS"><a href="#UmiJS" class="headerlink" title="UmiJS"></a>UmiJS</h1><p><code>Umi</code>是可扩展的企业级前端应用框架。</p>
+<p>链接：<a href="https://umijs.org/zh-CN/docs" target="_blank" rel="noopener">https://umijs.org/zh-CN/docs</a></p>
+<a id="more"></a>
+<h2 id="React"><a href="#React" class="headerlink" title="React"></a>React</h2><p><code>react</code>用于构建用户界面的 JavaScript 库。</p>
+<p>链接：<a href="https://react.docschina.org/" target="_blank" rel="noopener">https://react.docschina.org/</a></p>
+<h3 id="ahooks"><a href="#ahooks" class="headerlink" title="ahooks"></a>ahooks</h3><p>a hooks library</p>
+<p>链接：<a href="https://ahooks.js.org/zh-CN" target="_blank" rel="noopener">https://ahooks.js.org/zh-CN</a></p>
+<h2 id="DvaJS"><a href="#DvaJS" class="headerlink" title="DvaJS"></a>DvaJS</h2><p><code>dva</code>首先是一个基于 <code>redux</code>和<code>redux-saga</code> 的数据流方案，然后为了简化开发体验，<code>dva</code>还额外内置了 <code>react-router</code> 和 <code>fetch</code>，所以也可以理解为一个轻量级的应用框架。</p>
+<p>链接：<a href="https://dvajs.com/" target="_blank" rel="noopener">https://dvajs.com/</a></p>
+<h3 id="react-redux"><a href="#react-redux" class="headerlink" title="react-redux"></a>react-redux</h3><p><code>Redux</code> is a predictable state container for JavaScript apps.</p>
+<p>全局状态</p>
+<p>链接：<a href="https://redux.js.org/" target="_blank" rel="noopener">https://redux.js.org/</a></p>
+<h3 id="redux-saga"><a href="#redux-saga" class="headerlink" title="redux-saga"></a>redux-saga</h3><p><code>redux-saga</code> 是一个用于管理应用程序 Side Effect（副作用，例如异步获取数据，访问浏览器缓存等）的 library，它的目标是让副作用管理更容易，执行更高效，测试更简单，在处理故障时更容易。</p>
+<p>链接：<a href="https://redux-saga-in-chinese.js.org/" target="_blank" rel="noopener">https://redux-saga-in-chinese.js.org/</a></p>
+<blockquote>
+<p>历史中间产物，可以不用学</p>
+</blockquote>
+<h3 id="react-router"><a href="#react-router" class="headerlink" title="react-router"></a>react-router</h3><p>Declarative routing for React.</p>
+<p><a href="https://reactrouter.com/web/guides/quick-start" target="_blank" rel="noopener">https://reactrouter.com/web/guides/quick-start</a></p>
+<h3 id="fetch"><a href="#fetch" class="headerlink" title="fetch"></a>fetch</h3><p>A window.fetch JavaScript polyfill.</p>
+<p>链接：<a href="https://github.com/github/fetch">https://github.com/github/fetch</a></p>
+<h2 id="antd"><a href="#antd" class="headerlink" title="antd"></a>antd</h2><p><code>antd</code> 是基于 Ant Design 设计体系的 React UI 组件库，主要用于研发企业级中后台产品。</p>
+<p>链接：<a href="https://ant.design/index-cn" target="_blank" rel="noopener">https://ant.design/index-cn</a></p>
+<h3 id="less"><a href="#less" class="headerlink" title="less"></a>less</h3><p><code>Less</code>是一门 CSS 预处理语言，它扩展了 CSS 语言，增加了变量、Mixin、函数等特性，使 CSS 更易维护和扩展。</p>
+<p>链接：<a href="http://lesscss.cn/" target="_blank" rel="noopener">http://lesscss.cn/</a></p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>umi</tag>
+        <tag>react</tag>
+      </tags>
+  </entry>
 </search>
