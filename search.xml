@@ -1352,7 +1352,7 @@
 <a id="more"></a>
 <h2 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h2><ul>
 <li><input disabled="" type="checkbox"> 电脑、键盘、鼠标、手托、支架</li>
-<li><input disabled="" type="checkbox"> 本子、笔</li>
+<li><input disabled="" type="checkbox"> 电子纸</li>
 <li><input disabled="" type="checkbox"> 手机、耳机、充电器</li>
 <li><input disabled="" type="checkbox"> U盘</li>
 <li><input disabled="" type="checkbox"> 背包、电脑包、腰包</li>
@@ -1362,9 +1362,9 @@
 <li><input disabled="" type="checkbox"> 外套、长袖、长裤</li>
 <li><input disabled="" type="checkbox"> 内衣、内裤、睡衣</li>
 <li><input disabled="" type="checkbox"> 袜子</li>
-<li><input disabled="" type="checkbox"> 脸帕、浴巾、洗面奶、刮胡刀、电动牙刷</li>
+<li><input disabled="" type="checkbox"> 脸帕、浴巾、洗面奶、刮胡刀、牙刷</li>
 <li><input disabled="" type="checkbox"> 钥匙、身份证</li>
-<li><input disabled="" type="checkbox"> 茶包、卫生纸</li>
+<li><input disabled="" type="checkbox"> 茶包、卫生纸、水杯</li>
 </ul>
 <h2 id="现场购买"><a href="#现场购买" class="headerlink" title="现场购买"></a>现场购买</h2><ul>
 <li><input disabled="" type="checkbox"> 盆</li>
@@ -1456,6 +1456,7 @@
     <url>/2021/04/22/%E7%BF%BB%E8%AF%91-%E5%BE%AE%E4%BB%B6%E5%BC%80%E5%8F%91/</url>
     <content><![CDATA[<p><em>翻译自ArcGIS JS API 官网教程！！！</em></p>
 <p>微件是可重用的用户界面组件，是提供丰富用户体验的关键。ArcGIS for JavaScript API提供了一组随时可用的微件。从4.2版开始，它还为创建定制微件提供了基础。</p>
+<a id="more"></a>
 <p>本指南讨论微件开发的基本原理。在当前框架下，它的实现仅关注特定领域。无论微件的功能是什么，创建自定义微件的基础都是一致的。这里有<a href="https://developers.arcgis.com/javascript/latest/custom-widget/#additional-information" target="_blank" rel="noopener">额外的资源</a> 帮助您入门。可参考 <a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-widget/index.html" target="_blank" rel="noopener">Create custom widget</a> 和 <a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-recenter/index.html" target="_blank" rel="noopener">Recenter widget</a> 的示例，了解如何创建自己的自定义微件。</p>
 <blockquote>
 <p>请注意，这个框架并不打算替代所有dijit。使用dgrid就是一个这样的例子。在这里，您仍然需要使用Dijit。</p>
