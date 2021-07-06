@@ -460,7 +460,7 @@
 <li>检查<code>C:\Users\username\.ssh</code>目录下是否已经存在ssh公钥，<br>如果存在，就直接用，后续步骤就不用过了。</li>
 <li>打开git bash的命令行窗口，输入指令<code>ssh-keygen</code>。</li>
 <li>确认存放公钥的地址，默认就是上面说的路径，直接回车确认；<br>输入密码和确认密码，如果不想设置密码，直接不输入内容回车。</li>
-<li>在指定目录下会生成<code>id_rsa</code>和<code>id_ras.pub</code>两个文件，<br><code>id_rsa</code>发给仓库管理员，<code>id_ras.pub</code>自己收好。</li>
+<li>在指定目录下会生成<code>id_rsa</code>和<code>id_ras.pub</code>两个文件，<br><code>id_rsa.pub</code>发给仓库管理员，<code>id_ras</code>自己收好。</li>
 </ol>
 ]]></content>
       <categories>
