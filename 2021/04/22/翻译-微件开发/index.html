@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="translation," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="翻译自ArcGIS JS API 官网教程！！！ 微件是可重用的用户界面组件，是提供丰富用户体验的关键。ArcGIS for JavaScript API提供了一组随时可用的微件。从4.2版开始，它还为创建定制微件提供了基础。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="翻译-微件开发">
+<meta property="og:url" content="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2021/04/22/%E7%BF%BB%E8%AF%91-%E5%BE%AE%E4%BB%B6%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="GeoDaoyu">
+<meta property="og:description" content="翻译自ArcGIS JS API 官网教程！！！ 微件是可重用的用户界面组件，是提供丰富用户体验的关键。ArcGIS for JavaScript API提供了一组随时可用的微件。从4.2版开始，它还为创建定制微件提供了基础。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-04-22T14:43:06.000Z">
+<meta property="article:modified_time" content="2021-06-17T06:58:48.898Z">
+<meta property="article:author" content="GeoDaoyu">
+<meta property="article:tag" content="translation">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2021/04/22/翻译-微件开发/"/>
+
+
+
+
+
+  <title>翻译-微件开发 | GeoDaoyu</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">GeoDaoyu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/GeoDaoyu/GeoDaoyu.github.io/2021/04/22/%E7%BF%BB%E8%AF%91-%E5%BE%AE%E4%BB%B6%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="GeoDaoyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GeoDaoyu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">翻译-微件开发</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2021-04-22T22:43:06+08:00">
+                2021-04-22
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Post modified&#58;</span>
+              
+              <time title="Post modified" itemprop="dateModified" datetime="2021-06-17T14:58:48+08:00">
+                2021-06-17
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/translation/" itemprop="url" rel="index">
+                    <span itemprop="name">translation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Reading time &asymp;</span>
+                
+                <span title="Reading time">
+                  8
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>翻译自ArcGIS JS API 官网教程！！！</em></p>
+<p>微件是可重用的用户界面组件，是提供丰富用户体验的关键。ArcGIS for JavaScript API提供了一组随时可用的微件。从4.2版开始，它还为创建定制微件提供了基础。</p>
+<a id="more"></a>
+<p>本指南讨论微件开发的基本原理。在当前框架下，它的实现仅关注特定领域。无论微件的功能是什么，创建自定义微件的基础都是一致的。这里有<a href="https://developers.arcgis.com/javascript/latest/custom-widget/#additional-information" target="_blank" rel="noopener">额外的资源</a> 帮助您入门。可参考 <a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-widget/index.html" target="_blank" rel="noopener">Create custom widget</a> 和 <a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-recenter/index.html" target="_blank" rel="noopener">Recenter widget</a> 的示例，了解如何创建自己的自定义微件。</p>
+<blockquote>
+<p>请注意，这个框架并不打算替代所有dijit。使用dgrid就是一个这样的例子。在这里，您仍然需要使用Dijit。</p>
+</blockquote>
+<h2 id="开发前提"><a href="#开发前提" class="headerlink" title="开发前提"></a>开发前提</h2><p>在创建自己的自定义微件之前，您需要确保具备所需的要求。这些将根据您的微件需求而变化。下面列出的是微件开发的最低要求。</p>
+<h3 id="TypeScript"><a href="#TypeScript" class="headerlink" title="TypeScript"></a>TypeScript</h3><p><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a>是JavaScript的超集。编写后它会被编译成纯JavaScript。微件开发建议使用TypeScript。这有一个额外的 <a href="https://developers.arcgis.com/javascript/latest/guide/typescript-setup/index.html" target="_blank" rel="noopener">TypeScript 启动</a> 的例子，它提供了一些基础步骤来搭建你的TypeScript开发环境。这里有大量的<a href="https://www.sitepen.com/blog/update-the-definitive-typescript-guide/" target="_blank" rel="noopener">网络资源</a> 详细介绍TypeScript是什么，为什么使用和怎么使用它。熟悉这些基本知识将使微件开发过程更加容易。</p>
+<h3 id="JSX"><a href="#JSX" class="headerlink" title="JSX"></a>JSX</h3><p><a href="https://www.typescriptlang.org/docs/handbook/jsx.html" target="_blank" rel="noopener">JSX</a> 是一种JavaScript扩展语法，它允许我们像描述HTML一样描述微件UI。它看起来类似于HTML，它可以与JavaScript内联使用。</p>
+<h3 id="熟悉esri-core-Accessor"><a href="#熟悉esri-core-Accessor" class="headerlink" title="熟悉esri/core/Accessor"></a>熟悉esri/core/Accessor</h3><p><a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Accessor.html" target="_blank" rel="noopener">Accessor</a> 是4.x的核心特性之一，也是所有类（包括微件）的基类。关于它如何工作及其使用模式的更多细节，请参阅主题<a href="https://developers.arcgis.com/javascript/latest/guide/implementing-accessor/index.html" target="_blank" rel="noopener">实现访问器</a>。</p>
+<h2 id="微件生命周期"><a href="#微件生命周期" class="headerlink" title="微件生命周期"></a>微件生命周期</h2><p>在开始开发之前，一定要对微件的生命周期有个大致的了解。无论微件类型如何，其生命周期的一般概念都是相同的。它们是：</p>
+<ol>
+<li><strong>constructor (params)</strong> - 这里是微件初始化时设置所需属性的地方。由于微件是从<a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Accessor.html" target="_blank" rel="noopener">Accessor</a>派生的，因此你可以在<a href="https://developers.arcgis.com/javascript/latest/programming-patterns/#properties" target="_blank" rel="noopener">处理属性</a>主题中了解获取、设置和查看属性。</li>
+<li><strong>postInitialize()</strong> - 这个方法在微件被创建，但是UI还没有渲染的时候调用。</li>
+<li><strong>render()</strong> - 这是唯一的一个必须方法，用来渲染UI。</li>
+<li><strong>destroy()</strong> - 释放微件示例方法。</li>
+</ol>
+<h2 id="TypeScript装饰器"><a href="#TypeScript装饰器" class="headerlink" title="TypeScript装饰器"></a>TypeScript装饰器</h2><p>微件开发利用了 <a href="https://www.typescriptlang.org/docs/handbook/decorators.html" target="_blank" rel="noopener">TypeScript装饰器</a>。这允许我们在设计时定义和修改现有属性、方法和构造函数中的公共行为。我们将在下面讨论最常见的微件装饰器类型。</p>
+<h3 id="subclass"><a href="#subclass" class="headerlink" title="@subclass"></a><code>@subclass</code></h3><p>可以将这些装饰器看作是用于创建类的底层粘合剂。</p>
+<p>下面的代码片段导入并扩展了esri/widgets/Widget类，并在render方法中定义了UI。JSX用于定义UI。在这个简单的场景中，创建了一个内容为John Smith的div元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import Widget from &quot;esri&#x2F;widgets&#x2F;Widget&quot;;</span><br><span class="line"></span><br><span class="line">@subclass(&quot;esri.widgets.HelloWorld&quot;)</span><br><span class="line">class HelloWorld extends Widget &#123;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;div&gt;John Smith&lt;&#x2F;div&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="property"><a href="#property" class="headerlink" title="@property()"></a><code>@property()</code></h3><p>此装饰器用于定义访问器属性。使用这个装饰器定义的任何属性现在都可以获得和设置。此外，您还可以观察任何属性的更改。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@property()</span><br><span class="line">name: string;</span><br></pre></td></tr></table></figure>
+
+<h3 id="renderable"><a href="#renderable" class="headerlink" title="@renderable()"></a><code>@renderable()</code></h3><p>此装饰器用于调度渲染。每当修改属性时，都会自动调度和更新渲染。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@renderable()</span><br><span class="line">name: string;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>通常，在实现类属性时，您将同时使用@property()和@renderable()。例如,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@property()</span><br><span class="line">@renderable()</span><br><span class="line">name: string;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="aliasOf"><a href="#aliasOf" class="headerlink" title="@aliasOf()"></a><code>@aliasOf()</code></h3><p>这个装饰器允许我们定义一个属性别名。这有助于保持代码的整洁，从而不重复现有的属性(例如，已经在ViewModel中实现了)。上面提供的完整示例没有使用此装饰器。如果有一个与该文件相关联的HelloWorldViewModel，则可以通过这种方法直接访问其属性，从而避免代码重复。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@aliasOf(&quot;viewModel.name&quot;)</span><br><span class="line">name: string;</span><br></pre></td></tr></table></figure>
+
+<h2 id="微件实施"><a href="#微件实施" class="headerlink" title="微件实施"></a>微件实施</h2><p>以下步骤提供了实现自定义小部件所需步骤的高级概述:</p>
+<h3 id="继承微件"><a href="#继承微件" class="headerlink" title="继承微件"></a>继承微件</h3><p>在非常基本的层次上，您将通过扩展基本的小部件类来创建小部件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Import used to extend off of base Widget class</span><br><span class="line">import Widget from &quot;esri&#x2F;widgets&#x2F;Widget&quot;;</span><br><span class="line"></span><br><span class="line">@subclass(&quot;esri.widgets.HelloWorld&quot;)</span><br><span class="line">class HelloWorld extends Widget &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="实现属性和方法"><a href="#实现属性和方法" class="headerlink" title="实现属性和方法"></a>实现属性和方法</h3><p>接下来，您可以实现特定于该小部件的任何属性和/或方法。这段代码展示了如何利用这些属性的装饰器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Create &#39;name&#39; property</span><br><span class="line">@property()</span><br><span class="line">@renderable()</span><br><span class="line">name: string &#x3D; &quot;John Smith&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Create &#39;emphasized&#39; property</span><br><span class="line">@property()</span><br><span class="line">@renderable()</span><br><span class="line">emphasized: boolean &#x3D; false;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Create private _onNameUpdate method</span><br><span class="line">private _onNameUpdate(): string &#123; return &#39;$&#123;this.name&#125;&#39;;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，元素中引用的函数将把 <code>this</code> 设置为实际元素。您可以选择使用bind属性来更新 <code>this</code> 。下面的代码绑定了监听 <code>name</code> 属性更新时使用的 <code>_onNameUpdate</code> 回调方法。这在下面的postInitialize方法中显示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class HelloWorld extends Widget &#123;</span><br><span class="line"></span><br><span class="line">  constructor() &#123;</span><br><span class="line">    super();</span><br><span class="line">    this._onNameUpdate &#x3D; this._onNameUpdate.bind(this);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>postInitialize方法在微件的属性就绪时调用，但在它渲染之前调用。在下面的代码片段中，我们将观察name属性。一旦更新，它将调用_onNameUpdate回调方法。watchUtils.init()调用返回一个WatchHandle对象，然后将该对象传递给own()。这有助于在小部件被销毁后清理任何资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postInitialize() &#123;</span><br><span class="line">  const handle &#x3D; watchUtils.init(this, &quot;name&quot;, this._onNameUpdate);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Helper used for cleaning up resources once the widget is destroyed</span><br><span class="line">  this.own(handle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="渲染微件"><a href="#渲染微件" class="headerlink" title="渲染微件"></a>渲染微件</h3><p>在实现属性之后，使用JSX呈现微件的UI。这在微件的render方法中处理，这是微件实现所需的唯一方法。</p>
+<blockquote>
+<p>有关此特性的额外信息，请参阅下面的 <a href="https://developers.arcgis.com/javascript/latest/custom-widget/#widget-rendering" target="_blank" rel="noopener">示例</a> 。</p>
+</blockquote>
+<blockquote>
+<p>请注意，作为JSX元素创建的小部件目前还不受支持。例如，以下代码片段将不起作用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const search &#x3D; &lt;Search view&#x3D;&#123;view&#125; &#x2F;&gt;;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>微件CSS通过class属性设置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">  const classes &#x3D; &#123; &quot;hello-world-emphasized&quot;: this.emphasized &#125;;</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;div class &#x3D; &#123;this.classes(&quot;hello-world&quot;,classes)&#125;&gt;</span><br><span class="line">      &#123;this._onNameUpdate()&#125;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在4.7版本之前，如果需要更动态的方法，可以使用classes。这需要一个对象，其中键表示要切换的CSS类。如果值为true则添加该类，如果值为false则删除该类。</p>
+<p>从4.7开始，不要使用此属性。而是使用classes helper方法。这个方法简化了CSS类属性的设置。</p>
+</blockquote>
+<p>最后，在微件上调用destroy将释放微件，并释放在下面postInitialize中引用的own()方法中注册的所有资源。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">postInitialize() &#123;</span><br><span class="line">  const handle &#x3D; watchUtils.init(this, &quot;name&quot;, this._onNameUpdate);</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; Helper used for cleaning up resources once the widget is destroyed</span><br><span class="line">  this.own(handle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="导出模块"><a href="#导出模块" class="headerlink" title="导出模块"></a>导出模块</h3><p>在代码页的最后，添加一行以导出对象。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default HelloWorld;</span><br></pre></td></tr></table></figure>
+
+<h3 id="完成代码"><a href="#完成代码" class="headerlink" title="完成代码"></a>完成代码</h3><p> <a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-widget/index.html" target="_blank" rel="noopener">创建自定义微件</a> 示例完整地显示了.tsx文件。这个TypeScript文件使用这个扩展名来表示这个类使用JSX，e.g. <code>.ts + .jsx = .tsx</code>.</p>
+<h2 id="微件渲染"><a href="#微件渲染" class="headerlink" title="微件渲染"></a>微件渲染</h2><p>下面列出的属性可以用于渲染微件样式:</p>
+<ul>
+<li><a href="https://maquettejs.org/typedoc/interfaces/vnodeproperties.html#classes" target="_blank" rel="noopener">classes:</a> (Deprecated at 4.7) This property allows CSS classes to be added and removed dynamically. Beginning with version 4.7, please use the <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#classes" target="_blank" rel="noopener">classes</a> helper method instead.</li>
+<li><a href="http://maquettejs.org/typedoc/interfaces/vnodeproperties.html#styles" target="_blank" rel="noopener">styles:</a> Allows styles to be changed dynamically.</li>
+<li><a href="https://maquettejs.org/typedoc/interfaces/vnodeproperties.html#aftercreate" target="_blank" rel="noopener">afterCreate:</a> This callback method executes after the node is added to the DOM. Any child nodes and properties have already been applied. Use this method within <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-widgets-Widget.html#render" target="_blank" rel="noopener">render</a> to access the real DOM node. It is also possible to use per element.</li>
+<li><a href="http://maquettejs.org/typedoc/interfaces/vnodeproperties.html#afterupdate" target="_blank" rel="noopener">afterUpdate:</a> This callback method executes every time the node is updated.</li>
+<li><a href="http://maquettejs.org/typedoc/interfaces/vnodeproperties.html#bind" target="_blank" rel="noopener">bind:</a> This property is used to set the value of <code>this</code> for event handlers.</li>
+<li><a href="http://maquettejs.org/typedoc/interfaces/vnodeproperties.html#key" target="_blank" rel="noopener">key:</a> This is used to uniquely identify a DOM node among its siblings. This is important if you have sibling elements with the same selector and the elements are added/removed dynamically.</li>
+</ul>
+<h2 id="ViewModel模式"><a href="#ViewModel模式" class="headerlink" title="ViewModel模式"></a>ViewModel模式</h2><h2 id="额外信息"><a href="#额外信息" class="headerlink" title="额外信息"></a>额外信息</h2><p>请参阅这些额外的链接以获得更多信息:</p>
+<ul>
+<li><a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-widget/index.html" target="_blank" rel="noopener">Create custom widget</a></li>
+<li><a href="https://developers.arcgis.com/javascript/latest/sample-code/widgets-custom-recenter/index.html" target="_blank" rel="noopener">Recenter widget</a></li>
+<li><a href="https://developers.arcgis.com/javascript/latest/guide/typescript-setup/index.html" target="_blank" rel="noopener">TypeScript Setup</a></li>
+<li><a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-core-Accessor.html" target="_blank" rel="noopener">Accessor</a> class</li>
+<li><a href="https://developers.arcgis.com/javascript/latest/guide/implementing-accessor/index.html" target="_blank" rel="noopener">Implementing Accessor</a></li>
+<li><a href="https://developers.arcgis.com/javascript/latest/guide/programming-patterns/#properties" target="_blank" rel="noopener">Guide - Working with properties</a></li>
+<li><a href="https://developers.arcgis.com/javascript/latest/guide/styling/index.html" target="_blank" rel="noopener">Styling</a></li>
+<li><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a> reference</li>
+<li><a href="https://www.typescriptlang.org/docs/handbook/jsx.html" target="_blank" rel="noopener">JSX</a> reference</li>
+<li><a href="https://developers.arcgis.com/javascript/latest/guide/migrating/index.html#properties" target="_blank" rel="noopener">Migrating from 3.x to 4.18</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/translation/" rel="tag"># translation</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/07/%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="next" title="个人服务器">
+                <i class="fa fa-chevron-left"></i> 个人服务器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/08/14/%E5%9C%A8npm%E4%B8%8A%E5%8F%91%E5%B8%83%E4%B8%80%E4%B8%AA%E5%8C%85/" rel="prev" title="在npm上发布一个包">
+                在npm上发布一个包 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="GeoDaoyu" />
+            
+              <p class="site-author-name" itemprop="name">GeoDaoyu</p>
+              <p class="site-description motion-element" itemprop="description">GeoDaoyu's personal page</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7Carchive">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/GeoDaoyu" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:geodaoyu@foxmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.xbeichen.cn/" title="xbeichen" target="_blank">xbeichen</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发前提"><span class="nav-number">1.</span> <span class="nav-text">开发前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeScript"><span class="nav-number">1.1.</span> <span class="nav-text">TypeScript</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSX"><span class="nav-number">1.2.</span> <span class="nav-text">JSX</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#熟悉esri-core-Accessor"><span class="nav-number">1.3.</span> <span class="nav-text">熟悉esri&#x2F;core&#x2F;Accessor</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微件生命周期"><span class="nav-number">2.</span> <span class="nav-text">微件生命周期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TypeScript装饰器"><span class="nav-number">3.</span> <span class="nav-text">TypeScript装饰器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#subclass"><span class="nav-number">3.1.</span> <span class="nav-text">@subclass</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property"><span class="nav-number">3.2.</span> <span class="nav-text">@property()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#renderable"><span class="nav-number">3.3.</span> <span class="nav-text">@renderable()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#aliasOf"><span class="nav-number">3.4.</span> <span class="nav-text">@aliasOf()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微件实施"><span class="nav-number">4.</span> <span class="nav-text">微件实施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#继承微件"><span class="nav-number">4.1.</span> <span class="nav-text">继承微件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现属性和方法"><span class="nav-number">4.2.</span> <span class="nav-text">实现属性和方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渲染微件"><span class="nav-number">4.3.</span> <span class="nav-text">渲染微件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出模块"><span class="nav-number">4.4.</span> <span class="nav-text">导出模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完成代码"><span class="nav-number">4.5.</span> <span class="nav-text">完成代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微件渲染"><span class="nav-number">5.</span> <span class="nav-text">微件渲染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ViewModel模式"><span class="nav-number">6.</span> <span class="nav-text">ViewModel模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#额外信息"><span class="nav-number">7.</span> <span class="nav-text">额外信息</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020 &mdash; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GeoDaoyu</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">28.1k</span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
