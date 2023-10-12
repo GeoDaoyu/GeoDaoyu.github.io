@@ -1641,9 +1641,10 @@
 <li>了解中间件、洋葱模型等概念</li>
 <li>了解Redux、Koa中中间件的使用</li>
 <li>一点函数式编程技巧（方便阅读redux源码）<a id="more"></a>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2></li>
+
+</li>
 </ul>
-<p>点击按钮，执行分析，打印结果。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>点击按钮，执行分析，打印结果。</p>
 <figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> f = <span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b;</span><br><span class="line"><span class="keyword">const</span> onClick = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> result = f(<span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(result);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>新增需求 ，在分析时增加loading。</p>
