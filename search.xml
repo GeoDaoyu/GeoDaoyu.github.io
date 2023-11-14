@@ -1716,4 +1716,100 @@
         <tag>aop</tag>
       </tags>
   </entry>
+  <entry>
+    <title>内网Linux部署Nginx</title>
+    <url>/2023/11/14/%E5%86%85%E7%BD%91Linux%E9%83%A8%E7%BD%B2Nginx/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>某项目，在内网的统信（Linux）系统下通过编译安装的方式部署Nginx。</p>
+<a id="more"></a>
+
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>官网下载部署包</p>
+<p><a href="https://nginx.org/en/download.html" target="_blank" rel="noopener">https://nginx.org/en/download.html</a></p>
+<p>示例地址：<code>https://nginx.org/download/nginx-1.20.1.tar.gz</code></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>拷贝到服务器/opt下，进行解压，然后删除压缩包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">tar -zxvf nginx-1.20.1.tar.gz </span><br><span class="line">rm -f nginx-1.20.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压后，文件夹内容为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- opt</span><br><span class="line">  - nginx-1.20.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd nginx-1.20.1</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>编译后，文件夹内容为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- opt</span><br><span class="line">  - nginx-1.20.1 (源码)</span><br><span class="line">  - nginx (安装目录)</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>通过<code>whereis nginx</code>指令可以查看装到哪儿了。</p>
+<p>因为没有修改任何配置，所以默认情况下：</p>
+<p>配置在/etc/nginx<br>启动在/usr/sbin/nginx,启动指令: ./nginx start,加载配置文件: ./nginx -s reload</p>
+]]></content>
+      <categories>
+        <category>Nginx</category>
+      </categories>
+      <tags>
+        <tag>Nginx</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内网Linux安装OpenJDK</title>
+    <url>/2023/11/14/%E5%86%85%E7%BD%91Linux%E5%AE%89%E8%A3%85OpenJDK/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>某项目，在内网的统信（Linux）系统下安装OpenJDK。</p>
+<a id="more"></a>
+
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>官网下载部署包</p>
+<p><a href="https://jdk.java.net/archive/" target="_blank" rel="noopener">https://jdk.java.net/archive/</a></p>
+<p>示例地址：<code>https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz</code></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>拷贝到服务器/opt下，进行解压，然后删除压缩包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">tar -zxvf openjdk-11_linux-x64_bin.tar.gz</span><br><span class="line">rm -f openjdk-11_linux-x64_bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压后，文件夹内容为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- opt</span><br><span class="line">  - jdk11</span><br></pre></td></tr></table></figure>
+
+<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /root/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 最后添加</span></span><br><span class="line">export PATH=/opt/jdk11/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置生效</span></span><br><span class="line">source /root/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">java --version</span><br></pre></td></tr></table></figure>
+
+<p>输出OpenJDK的信息。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>OpenJDK</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>内网Linux安装neo4j</title>
+    <url>/2023/11/14/%E5%86%85%E7%BD%91Linux%E5%AE%89%E8%A3%85neo4j/</url>
+    <content><![CDATA[<hr>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>某项目，在内网的统信（Linux）系统下安装neo4j。</p>
+<p>neo4j是一个图数据库。安装需要Java环境（安装OpenJDK）。</p>
+<a id="more"></a>
+
+<h2 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h2><h3 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h3><p>官网下载社区版的部署包</p>
+<p><a href="https://neo4j.com/deployment-center/" target="_blank" rel="noopener">https://neo4j.com/deployment-center/</a></p>
+<h3 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h3><p>拷贝到服务器/opt下，进行解压，然后删除压缩包</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /opt</span><br><span class="line">tar -zxvf neo4j-community-5.5.0-unix.tar.gz</span><br><span class="line">rm -f neo4j-community-5.5.0-unix.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>解压后，文件夹内容为：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">- opt</span><br><span class="line">  - neo4j-community-5.5.0</span><br></pre></td></tr></table></figure>
+
+<h3 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /root/.bash_profile</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 最后添加</span></span><br><span class="line">export PATH=/opt/neo4j-community-5.5.0/bin:$PATH</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 配置生效</span></span><br><span class="line">source /root/.bash_profile</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd neo4j-community-5.5.0/bin/</span><br><span class="line">neo4j start</span><br></pre></td></tr></table></figure>
+
+<p>访问<a href="http://localhost:7474，默认账号密码：neo4j/neo4j">http://localhost:7474，默认账号密码：neo4j/neo4j</a></p>
+<p>第一次进入，需要修改默认密码。</p>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><h3 id="ip监听"><a href="#ip监听" class="headerlink" title="ip监听"></a>ip监听</h3><p>neo4j默认不开启ip地址监听，所以别的服务器访问不了neo4j的页面。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim neo4j.conf</span><br></pre></td></tr></table></figure>
+
+<p>在配置中，把<code>dbms.connectorss.default_listen_address=0.0.0.0</code>解除注释即开启监听。记得重启。</p>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+        <tag>neo4j</tag>
+      </tags>
+  </entry>
 </search>
