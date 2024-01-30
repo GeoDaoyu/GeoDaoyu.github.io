@@ -1812,4 +1812,110 @@
         <tag>neo4j</tag>
       </tags>
   </entry>
+  <entry>
+    <title>linux搭建samba</title>
+    <url>/2024/01/30/linux%E6%90%AD%E5%BB%BAsamba/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Samba是在Linux系统上实现SMB协议的一个免费软件。SMB（Server Messages Block，信息服务块）是一种在局域网上共享文件和打印机的一种通信协议，它为局域网内的不同计算机之间提供文件及打印机等资源的共享服务。</p>
+<p>需求是给linux服务器安装samba，共享文件夹给windows桌面机。</p>
+<a id="more"></a>
+<h2 id="安装samba"><a href="#安装samba" class="headerlink" title="安装samba"></a>安装samba</h2><p>1.安装</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">yum -y install samba-*</span><br></pre></td></tr></table></figure>
+
+<p>2.创建用户</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 添加系统用户</span></span><br><span class="line">useradd zhanggy</span><br><span class="line"><span class="meta">#</span><span class="bash"> 添加系统用户为samba用户，并设置密码</span></span><br><span class="line">smbpasswd -a zhanggy</span><br></pre></td></tr></table></figure>
+
+<p>3.修改配置文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">vim /etc/samba/smb.conf</span><br></pre></td></tr></table></figure>
+
+<p>在最后增加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[zhanggyshare]</span><br><span class="line">   # 我们要分享的文件夹路径</span><br><span class="line">   path &#x3D; &#x2F;opt&#x2F;projects&#x2F;webs</span><br><span class="line">   # 是否允许浏览</span><br><span class="line">   browseable &#x3D; yes</span><br><span class="line">   # 是否可写</span><br><span class="line">   writable &#x3D; yes</span><br><span class="line">   # 是否允许匿名(guest)访问,等同于public</span><br><span class="line">   guest ok &#x3D; yes</span><br><span class="line">   # 客户端上传文件的默认权限</span><br><span class="line">   create mask &#x3D; 0777</span><br><span class="line">   # 客户端创建目录的默认权限</span><br><span class="line">   # 注意共享文件在系统本地的权限不能低于以上设置的共享权限。</span><br><span class="line">   directory mask &#x3D; 0777</span><br></pre></td></tr></table></figure>
+
+<p>记得修改共享文件夹的权限</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chmod 777 -R /opt/projects/webs</span><br></pre></td></tr></table></figure>
+
+<p>4.启动服务</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 启动</span></span><br><span class="line">sudo systemctl start smb nmb</span><br><span class="line"><span class="meta">#</span><span class="bash"> 重启</span></span><br><span class="line">sudo systemctl restart smb nmb</span><br><span class="line"><span class="meta">#</span><span class="bash"> 停止</span></span><br><span class="line">sudo systemctl stop smb nmb</span><br></pre></td></tr></table></figure>
+
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>在windows上，打开文件管理器，访问<code>\\192.168.190.85\zhanggyshare</code>，输入之前注册的账号密码。</p>
+<p>能浏览、拷出、写入、删除。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux安装docker和jenkins</title>
+    <url>/2024/01/30/linux%E5%AE%89%E8%A3%85docker%E5%92%8Cjenkins/</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>给一台新服务器安装Docker和Jenkins，做前端应用部署使用。</p>
+<p>服务器是CentOS7，已经安装了Nginx，可以联网。</p>
+<a id="more"></a>
+<h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>1.设置存储库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+
+<p>2.安装Docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+
+<p>3.启动Docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<p>4.验证Docker</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h2><p>1.在Docker中安装Jenkins镜像</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker pull jenkins/jenkins</span><br></pre></td></tr></table></figure>
+
+<p>2.启动Jenkins</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker run -d -p 8080:8080 -p 50000:50000 -v /opt/apps/jenkins_home:/var/jenkins_home -v /opt/webs:/webs --name -e JENKINS_OPTS="--prefix=/jenkins" -e JENKINS_ARGS="--prefix=/jenkins" jenkins jenkins/jenkins</span><br></pre></td></tr></table></figure>
+
+<p>-d: 后台运行</p>
+<p>-p: 端口映射，Jenkins使用8080和50000两个端口</p>
+<p>–name: 别名</p>
+<p>-v: 挂载文件，分别挂载jenkins_home和nginx部署文件夹</p>
+<p>-e: 环境变量，jenkins的启动参数，给nginx代理用</p>
+<p>jenkins/jenkins是镜像名称</p>
+<p>3.Nginx代理Jenkins</p>
+<p>在nginx配置中增加：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># jenkins转发</span><br><span class="line">location &#x2F;jenkins &#123;</span><br><span class="line">    proxy_set_header X-Real_IP $remote_addr;</span><br><span class="line">    proxy_set_header Host $host;</span><br><span class="line">    proxy_set_header X-Forwarded-Proto https;</span><br><span class="line">    proxy_set_header X-Forwarded-Host ps.geoscene.cn;</span><br><span class="line">    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;192.168.190.50:8080&#x2F;jenkins;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4.验证Jenkins</p>
+<p>访问页面：<a href="https://domain.com/jenkins" target="_blank" rel="noopener">https://domain.com/jenkins</a></p>
+<h2 id="配置jenkins"><a href="#配置jenkins" class="headerlink" title="配置jenkins"></a>配置jenkins</h2><p>1.管理员账号密码</p>
+<p>admin/xxxxx</p>
+<p>2.安装插件</p>
+<p>插件中安装node、gitlab</p>
+<p>全局配置中安装node多版本</p>
+<p>3.新建流水线</p>
+<h2 id="运维"><a href="#运维" class="headerlink" title="运维"></a>运维</h2><p>启动：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker start jenkins</span><br></pre></td></tr></table></figure>
+
+<p>设置jenkins开机自启动：</p>
+<p>1.docker自启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">systemctl enable docker.service</span><br></pre></td></tr></table></figure>
+
+<p>2.jenkins自启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">docker update --restart=always jenkins</span><br></pre></td></tr></table></figure>
+
+<p>设置nginx自启动</p>
+<p>1.创建服务文件</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+
+<p>粘贴文本：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description&#x3D;The Nginx HTTP and reverse proxy server</span><br><span class="line">After&#x3D;network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type&#x3D;forking</span><br><span class="line">PIDFile&#x3D;&#x2F;run&#x2F;nginx.pid</span><br><span class="line">ExecStartPre&#x3D;&#x2F;usr&#x2F;sbin&#x2F;nginx -t</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;sbin&#x2F;nginx</span><br><span class="line">ExecReload&#x3D;&#x2F;bin&#x2F;kill -s HUP $MAINPID</span><br><span class="line">ExecStop&#x3D;&#x2F;bin&#x2F;kill -s QUIT $MAINPID</span><br><span class="line">PrivateTmp&#x3D;true</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy&#x3D;multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>2.设置自启动</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo systemctl enable nginx</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Jenkins</tag>
+        <tag>Linux</tag>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
 </search>
