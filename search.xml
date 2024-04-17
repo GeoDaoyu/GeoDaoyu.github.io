@@ -1780,8 +1780,7 @@
   <entry>
     <title>内网Linux安装neo4j</title>
     <url>/2023/11/14/%E5%86%85%E7%BD%91Linux%E5%AE%89%E8%A3%85neo4j/</url>
-    <content><![CDATA[<hr>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>某项目，在内网的统信（Linux）系统下安装neo4j。</p>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>某项目，在内网的统信（Linux）系统下安装neo4j。</p>
 <p>neo4j是一个图数据库。安装需要Java环境（安装OpenJDK）。</p>
 <a id="more"></a>
 
