@@ -1932,4 +1932,24 @@
         <tag>iframe</tag>
       </tags>
   </entry>
+  <entry>
+    <title>sicp学习资料</title>
+    <url>/2024/06/24/sicp%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%96%99/</url>
+    <content><![CDATA[<p>在线书籍：</p>
+<p><a href="https://sourceacademy.org/sicpjs/foreword02" target="_blank" rel="noopener">https://sourceacademy.org/sicpjs/foreword02</a></p>
+<p>实体书（JavaScript版本）有中文版：</p>
+<p><a href="https://book.douban.com/subject/36787585/" target="_blank" rel="noopener">https://book.douban.com/subject/36787585/</a></p>
+<p>课后习题答案（中文）：</p>
+<p><a href="https://sicp.readthedocs.io/en/latest/index.html" target="_blank" rel="noopener">https://sicp.readthedocs.io/en/latest/index.html</a></p>
+<p>官方github：</p>
+<p><a href="https://github.com/source-academy/sicp">https://github.com/source-academy/sicp</a></p>
+]]></content>
+      <categories>
+        <category>CS</category>
+      </categories>
+      <tags>
+        <tag>SICP</tag>
+        <tag>JavaScript</tag>
+      </tags>
+  </entry>
 </search>
