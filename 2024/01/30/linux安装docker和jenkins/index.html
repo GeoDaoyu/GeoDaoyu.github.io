@@ -87,7 +87,7 @@
 <meta property="og:description" content="背景给一台新服务器安装Docker和Jenkins，做前端应用部署使用。 服务器是CentOS7，已经安装了Nginx，可以联网。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-01-30T03:33:27.000Z">
-<meta property="article:modified_time" content="2024-01-30T03:34:54.111Z">
+<meta property="article:modified_time" content="2024-07-29T03:42:22.676Z">
 <meta property="article:author" content="GeoDaoyu">
 <meta property="article:tag" content="Jenkins">
 <meta property="article:tag" content="Linux">
@@ -345,8 +345,8 @@
               
                 <span class="post-meta-item-text">Post modified&#58;</span>
               
-              <time title="Post modified" itemprop="dateModified" datetime="2024-01-30T11:34:54+08:00">
-                2024-01-30
+              <time title="Post modified" itemprop="dateModified" datetime="2024-07-29T11:42:22+08:00">
+                2024-07-29
               </time>
             
           </span>
@@ -435,6 +435,7 @@
         <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>给一台新服务器安装Docker和Jenkins，做前端应用部署使用。</p>
 <p>服务器是CentOS7，已经安装了Nginx，可以联网。</p>
 <a id="more"></a>
+
 <h2 id="安装Docker"><a href="#安装Docker" class="headerlink" title="安装Docker"></a>安装Docker</h2><p>1.设置存储库</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils</span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">   --add-repo \</span><br><span class="line">   https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
 
@@ -451,7 +452,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/jenkins</span><br></pre></td></tr></table></figure>
 
 <p>2.启动Jenkins</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 -p 50000:50000 -v /opt/apps/jenkins_home:/var/jenkins_home -v /opt/webs:/webs --name -e JENKINS_OPTS="--prefix=/jenkins" -e JENKINS_ARGS="--prefix=/jenkins" jenkins jenkins/jenkins</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 8080:8080 -p 50000:50000 -v /opt/apps/jenkins_home:/var/jenkins_home -v /opt/webs:/webs -e JENKINS_OPTS="--prefix=/jenkins" -e JENKINS_ARGS="--prefix=/jenkins" --name jenkins jenkins/jenkins</span><br></pre></td></tr></table></figure>
 
 <p>-d: 后台运行</p>
 <p>-p: 端口映射，Jenkins使用8080和50000两个端口</p>
@@ -490,7 +491,6 @@
 
 <p>2.设置自启动</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable nginx</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
