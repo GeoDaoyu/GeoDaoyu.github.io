@@ -1952,4 +1952,21 @@
         <tag>JavaScript</tag>
       </tags>
   </entry>
+  <entry>
+    <title>GeoJSONLayer不能被hitTest选中</title>
+    <url>/2025/02/10/GeoJSONLayer%E4%B8%8D%E8%83%BD%E8%A2%ABhitTest%E9%80%89%E4%B8%AD/</url>
+    <content><![CDATA[<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在三维下，使用GeoJSONLayer加载的GeoJSON文件，不能被hitTest选中。</p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>写测试页面调试，发现是GeoJSON数据中带有z值, 且均为0。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>法一：数据上处理，把z值都过滤掉。</p>
+<p>法二：设置GeoJSONLayer的<code>elevationInfo.mode</code>属性为<code>on-the-ground</code>。</p>
+<p>法三：设置GeoJSONLayer的<code>hasZ</code>属性为<code>false</code>。</p>
+]]></content>
+      <categories>
+        <category>ArcGIS JS API</category>
+      </categories>
+      <tags>
+        <tag>GeoJSONLayer</tag>
+        <tag>hitTest</tag>
+      </tags>
+  </entry>
 </search>
