@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"geodaoyu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="负载均衡是为减轻单个服务器负担，将请求按照某种策略分发给多个服务器。 官方文档参考：http:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;docs&#x2F;http&#x2F;ngx_http_upstream_module.html#upstream 以2台Tomcat集群为例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx基础-4:负载均衡">
+<meta property="og:url" content="https://geodaoyu.github.io/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-4-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.html">
+<meta property="og:site_name" content="GeoDaoyu">
+<meta property="og:description" content="负载均衡是为减轻单个服务器负担，将请求按照某种策略分发给多个服务器。 官方文档参考：http:&#x2F;&#x2F;nginx.org&#x2F;en&#x2F;docs&#x2F;http&#x2F;ngx_http_upstream_module.html#upstream 以2台Tomcat集群为例">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/1568258710917.png">
+<meta property="article:published_time" content="2020-06-03T12:51:00.000Z">
+<meta property="article:modified_time" content="2026-10-08T04:52:32.678Z">
+<meta property="article:author" content="GeoDaoyu">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/1568258710917.png">
+
+
+<link rel="canonical" href="https://geodaoyu.github.io/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-4-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://geodaoyu.github.io/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-4-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/","path":"2020/06/03/Nginx基础-4-负载均衡/","title":"Nginx基础-4:负载均衡"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Nginx基础-4:负载均衡 | GeoDaoyu</title>
+  
+
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<meta name="referrer" content="no-referrer"/>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GeoDaoyu</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">Tomcat配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nginx%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">Nginx配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%8F%91%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">分发策略</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BD%AE%E8%AF%A2%EF%BC%88%E9%BB%98%E8%AE%A4%EF%BC%89"><span class="nav-number">3.1.</span> <span class="nav-text">1.轮询（默认）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8A%A0%E6%9D%83%E8%BD%AE%E8%AF%A2"><span class="nav-number">3.2.</span> <span class="nav-text">2.加权轮询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ip-hash"><span class="nav-number">3.3.</span> <span class="nav-text">3.ip_hash</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%9C%80%E5%B0%8F%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.4.</span> <span class="nav-text">4.最小连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-url-hash"><span class="nav-number">3.5.</span> <span class="nav-text">5.url_hash</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E5%8F%82%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">状态参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-down"><span class="nav-number">4.1.</span> <span class="nav-text">1.down</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-backup"><span class="nav-number">4.2.</span> <span class="nav-text">2.backup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-max-fails%E5%92%8Cfail-timeout"><span class="nav-number">4.3.</span> <span class="nav-text">3.max_fails和fail_timeout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-max-conns"><span class="nav-number">4.4.</span> <span class="nav-text">4.max_conns</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GeoDaoyu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">GeoDaoyu</p>
+  <div class="site-description" itemprop="description">GeoDaoyu's personal page</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GeoDaoyu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GeoDaoyu" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:geodaoyu@foxmail.com" title="E-Mail → mailto:geodaoyu@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://geodaoyu.github.io/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-4-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="GeoDaoyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GeoDaoyu">
+      <meta itemprop="description" content="GeoDaoyu's personal page">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Nginx基础-4:负载均衡 | GeoDaoyu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nginx基础-4:负载均衡
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-06-03 20:51:00" itemprop="dateCreated datePublished" datetime="2020-06-03T20:51:00+08:00">2020-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-10-08 12:52:32" itemprop="dateModified" datetime="2026-10-08T12:52:32+08:00">2026-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Nginx/" itemprop="url" rel="index"><span itemprop="name">Nginx</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>544</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>2 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>负载均衡是为减轻单个服务器负担，将请求按照某种策略分发给多个服务器。</p>
+<p>官方文档参考：<a target="_blank" rel="noopener" href="http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream">http://nginx.org/en/docs/http/ngx_http_upstream_module.html#upstream</a></p>
+<p>以2台Tomcat集群为例</p>
+<span id="more"></span>
+<h2 id="Tomcat配置"><a href="#Tomcat配置" class="headerlink" title="Tomcat配置"></a>Tomcat配置</h2><p>Tomcat下载地址：<a target="_blank" rel="noopener" href="https://tomcat.apache.org/download-80.cgi">https://tomcat.apache.org/download-80.cgi</a></p>
+<p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/1568258710917.png" alt="1568258710917"></p>
+<p>解压后修改<code>\tomcat\conf\</code>目录下的server.xml</p>
+<p>修改<strong>所有的</strong>端口号，避免冲突</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8080&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">connectionTimeout</span>=<span class="string">&quot;20000&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">redirectPort</span>=<span class="string">&quot;8443&quot;</span> </span></span><br><span class="line"><span class="tag">/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>本例中，Tomcat A部署在<code>http://localhost:8080</code>，Tomcat B部署在<code>http://localhost:8082</code></p>
+<p>分别在两个Tomcat下部署<code>tomcat\webapps\demo\load-balance.html</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;en&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">&quot;X-UA-Compatible&quot;</span> <span class="attr">content</span>=<span class="string">&quot;ie=edge&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h1</span> <span class="attr">style</span>=<span class="string">&quot;color: pink&quot;</span>&gt;</span>8080<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>用颜色和文字区分两个Tomcat</p>
+<h2 id="Nginx配置"><a href="#Nginx配置" class="headerlink" title="Nginx配置"></a>Nginx配置</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen       8088;</span><br><span class="line">    server_name  localhost;</span><br><span class="line"></span><br><span class="line">    charset utf-8;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        proxy_pass   http://tomcat;</span><br><span class="line">        proxy_redirect default;</span><br><span class="line"></span><br><span class="line">        include proxy_params;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>进入浏览器，用<code>http://localhost:8088/demo/load-balance.html</code>进行访问</p>
+<p>F5刷新页面，会依次地访问到8080和8082上的Tomcat</p>
+<h2 id="分发策略"><a href="#分发策略" class="headerlink" title="分发策略"></a>分发策略</h2><h3 id="1-轮询（默认）"><a href="#1-轮询（默认）" class="headerlink" title="1.轮询（默认）"></a>1.轮询（默认）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按时间顺序，依次分发</p>
+<h3 id="2-加权轮询"><a href="#2-加权轮询" class="headerlink" title="2.加权轮询"></a>2.加权轮询</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080 weight=1;</span><br><span class="line">    server localhost:8082 weight=10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>weight值与访问几率成正比</p>
+<h3 id="3-ip-hash"><a href="#3-ip-hash" class="headerlink" title="3.ip_hash"></a>3.ip_hash</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">	ip_hash;</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>考虑缓存的情况，保持会话</p>
+<p>来自同一ip的请求会固定到一个server</p>
+<h3 id="4-最小连接"><a href="#4-最小连接" class="headerlink" title="4.最小连接"></a>4.最小连接</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">	least_conn；</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>根据连接数来分发，起到均分的作用</p>
+<h3 id="5-url-hash"><a href="#5-url-hash" class="headerlink" title="5.url_hash"></a>5.url_hash</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">	hash $request_url;</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>来自同一url的请求会固定到一个server</p>
+<h2 id="状态参数"><a href="#状态参数" class="headerlink" title="状态参数"></a>状态参数</h2><h3 id="1-down"><a href="#1-down" class="headerlink" title="1.down"></a>1.down</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080 down;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当前server不参与负载均衡</p>
+<h3 id="2-backup"><a href="#2-backup" class="headerlink" title="2.backup"></a>2.backup</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080 down;</span><br><span class="line">    server localhost:8082;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>预留的server，当有其他的server挂掉或者忙的时候，才会参与负载</p>
+<h3 id="3-max-fails和fail-timeout"><a href="#3-max-fails和fail-timeout" class="headerlink" title="3.max_fails和fail_timeout"></a>3.max_fails和fail_timeout</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082 max_fails=3 fail_timeout=30s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最大连接错误次数3次，每次失败后，间隔30s再重新发起连接</p>
+<h3 id="4-max-conns"><a href="#4-max-conns" class="headerlink" title="4.max_conns"></a>4.max_conns</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">upstream tomcat &#123;</span><br><span class="line">    server localhost:8080;</span><br><span class="line">    server localhost:8082 max_conns=500;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>超过最大连接数后，就不参与负载</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-3-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" rel="prev" title="Nginx基础-3:反向代理">
+                  <i class="fa fa-angle-left"></i> Nginx基础-3:反向代理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/03/Nginx%E5%9F%BA%E7%A1%80-5-SSL%E9%85%8D%E7%BD%AE/" rel="next" title="Nginx基础-5:SSL配置">
+                  Nginx基础-5:SSL配置 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2020 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GeoDaoyu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">25k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:33</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

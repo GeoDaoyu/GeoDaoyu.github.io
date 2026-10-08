@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"geodaoyu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="三维场景里同时挂了动态图层、切片图层和要素图层，要只展示划定范围内的内容。 按图层类型分别处理就得维护三套逻辑，最后用 FocusArea 一个 API 统一了。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用FocusArea统一场景遮罩">
+<meta property="og:url" content="https://geodaoyu.github.io/2026/10/08/%E7%94%A8FocusArea%E7%BB%9F%E4%B8%80%E5%9C%BA%E6%99%AF%E9%81%AE%E7%BD%A9/index.html">
+<meta property="og:site_name" content="GeoDaoyu">
+<meta property="og:description" content="三维场景里同时挂了动态图层、切片图层和要素图层，要只展示划定范围内的内容。 按图层类型分别处理就得维护三套逻辑，最后用 FocusArea 一个 API 统一了。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/focus-area-demo.png">
+<meta property="article:published_time" content="2026-10-08T04:19:54.000Z">
+<meta property="article:modified_time" content="2026-10-08T04:52:32.679Z">
+<meta property="article:author" content="GeoDaoyu">
+<meta property="article:tag" content="FocusArea">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/focus-area-demo.png">
+
+
+<link rel="canonical" href="https://geodaoyu.github.io/2026/10/08/%E7%94%A8FocusArea%E7%BB%9F%E4%B8%80%E5%9C%BA%E6%99%AF%E9%81%AE%E7%BD%A9/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://geodaoyu.github.io/2026/10/08/%E7%94%A8FocusArea%E7%BB%9F%E4%B8%80%E5%9C%BA%E6%99%AF%E9%81%AE%E7%BD%A9/","path":"2026/10/08/用FocusArea统一场景遮罩/","title":"用FocusArea统一场景遮罩"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>用FocusArea统一场景遮罩 | GeoDaoyu</title>
+  
+
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<meta name="referrer" content="no-referrer"/>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GeoDaoyu</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%80%83%E8%99%91"><span class="nav-number">2.</span> <span class="nav-text">考虑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FeatureEffect"><span class="nav-number">2.1.</span> <span class="nav-text">FeatureEffect</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#clippingArea"><span class="nav-number">2.2.</span> <span class="nav-text">clippingArea</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84clipping"><span class="nav-number">2.3.</span> <span class="nav-text">服务端的clipping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A6%86%E5%86%99fetchTile"><span class="nav-number">2.4.</span> <span class="nav-text">覆写fetchTile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%80%BE%E6%96%9C%E7%9A%84mask"><span class="nav-number">2.5.</span> <span class="nav-text">倾斜的mask</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FocusArea"><span class="nav-number">3.</span> <span class="nav-text">FocusArea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9D%91"><span class="nav-number">4.</span> <span class="nav-text">坑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">5.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GeoDaoyu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">GeoDaoyu</p>
+  <div class="site-description" itemprop="description">GeoDaoyu's personal page</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GeoDaoyu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GeoDaoyu" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:geodaoyu@foxmail.com" title="E-Mail → mailto:geodaoyu@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://geodaoyu.github.io/2026/10/08/%E7%94%A8FocusArea%E7%BB%9F%E4%B8%80%E5%9C%BA%E6%99%AF%E9%81%AE%E7%BD%A9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="GeoDaoyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GeoDaoyu">
+      <meta itemprop="description" content="GeoDaoyu's personal page">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="用FocusArea统一场景遮罩 | GeoDaoyu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用FocusArea统一场景遮罩
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2026-10-08 12:19:54 / Modified: 12:52:32" itemprop="dateCreated datePublished" datetime="2026-10-08T12:19:54+08:00">2026-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ArcGIS-JS-API/" itemprop="url" rel="index"><span itemprop="name">ArcGIS JS API</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>三维场景里同时挂了动态图层、切片图层和要素图层，要只展示划定范围内的内容。</p>
+<p>按图层类型分别处理就得维护三套逻辑，最后用 FocusArea 一个 API 统一了。</p>
+<span id="more"></span>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>需求是只展示划定范围内的数据和服务。</p>
+<p>场景里的图层有三类：动态图层（map-image）、切片图层（tile）和要素图层（feature）。</p>
+<p>ArcGIS 对不同图层给的遮罩手段不一样，所以下面几条路都试过或者查过。</p>
+<blockquote>
+<p>注：ArcGIS Maps SDK for JavaScript 5.1。</p>
+</blockquote>
+<h2 id="考虑"><a href="#考虑" class="headerlink" title="考虑"></a>考虑</h2><h3 id="FeatureEffect"><a href="#FeatureEffect" class="headerlink" title="FeatureEffect"></a>FeatureEffect</h3><p>要素图层官方有 <a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/references/core/layers/support/FeatureEffect/">FeatureEffect</a>，配一个 <code>FeatureFilter</code> 就能只显示范围内的要素：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">layer.<span class="property">featureEffect</span> = <span class="keyword">new</span> <span class="title class_">FeatureEffect</span>(&#123;</span><br><span class="line">  <span class="attr">filter</span>: <span class="keyword">new</span> <span class="title class_">FeatureFilter</span>(&#123;</span><br><span class="line">    <span class="attr">geometry</span>: filterGeometry,</span><br><span class="line">    <span class="attr">spatialRelationship</span>: <span class="string">&quot;intersects&quot;</span>,</span><br><span class="line">    <span class="attr">distance</span>: <span class="number">3</span>,</span><br><span class="line">    <span class="attr">units</span>: <span class="string">&quot;miles&quot;</span>,</span><br><span class="line">  &#125;),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>但是官方写明 FeatureEffect 只在二维 MapView 生效，不支持三维 SceneView。</p>
+<p>所以场景里的要素图层用不了，这条路在三维下就断了。</p>
+<h3 id="clippingArea"><a href="#clippingArea" class="headerlink" title="clippingArea"></a>clippingArea</h3><p>三维场景另有 <a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/references/core/views/SceneView/">SceneView.clippingArea</a>，能裁掉范围外的部分。</p>
+<p>它的值就是一个 <code>Extent</code>，没有 <code>ClippingArea</code> 这个类，也没有 intersect、exclude 之类的参数：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> clippingExtent = &#123;</span><br><span class="line">  <span class="comment">// autocasts as new Extent()</span></span><br><span class="line">  <span class="attr">xmin</span>: -<span class="number">10932882</span>,</span><br><span class="line">  <span class="attr">ymin</span>: <span class="number">4432667</span>,</span><br><span class="line">  <span class="attr">xmax</span>: -<span class="number">10834217</span>,</span><br><span class="line">  <span class="attr">ymax</span>: <span class="number">4493918</span>,</span><br><span class="line">  <span class="attr">spatialReference</span>: &#123;</span><br><span class="line">    <span class="attr">wkid</span>: <span class="number">3857</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">view.<span class="property">clippingArea</span> = clippingExtent;</span><br></pre></td></tr></table></figure>
+
+<p>限制有两条：只在 <code>viewingMode</code> 为 <code>local</code> 的局部场景里生效，全局场景下取值为 <code>null</code>。</p>
+<p>另一条是范围只能是矩形，多边形选区做不了。</p>
+<h3 id="服务端的clipping"><a href="#服务端的clipping" class="headerlink" title="服务端的clipping"></a>服务端的clipping</h3><p>动态图层可以把遮罩交给服务端，<a target="_blank" rel="noopener" href="https://developers.arcgis.com/rest/services-reference/enterprise/export-map/">export</a> 操作有一个 <code>clipping</code> 参数。</p>
+<p><code>MapImageLayer</code> 上没有 <code>clippingArea</code> 属性，参数靠 <code>customParameters</code> 附加到请求 URL 上：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> layer = <span class="keyword">new</span> <span class="title class_">MapImageLayer</span>(&#123;</span><br><span class="line">  <span class="attr">url</span>: serviceUrl,</span><br><span class="line">  <span class="attr">customParameters</span>: &#123;</span><br><span class="line">    <span class="attr">clipping</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(&#123;</span><br><span class="line">      <span class="attr">geometryType</span>: <span class="string">&quot;esriGeometryPolygon&quot;</span>,</span><br><span class="line">      <span class="attr">geometry</span>: polygon,</span><br><span class="line">    &#125;),</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>clipping</code> 是 10.8 才有的参数，只有 ArcGIS Pro 发布的地图服务支持，服务还得声明 <code>supportsClipping</code>。</p>
+<blockquote>
+<p>注：<code>customParameters</code> 官方只说是附加到请求 URL 上的自定义参数，值必须是字符串。而且这条路只解决动态图层一类，其余两类还得各写一套。</p>
+</blockquote>
+<h3 id="覆写fetchTile"><a href="#覆写fetchTile" class="headerlink" title="覆写fetchTile"></a>覆写fetchTile</h3><p>切片图层官方没有遮罩 API，能想到的办法是继承 <code>BaseTileLayer</code>，覆写 <code>fetchTile</code>。</p>
+<p>取回瓦片图片后画到 canvas 上再返回，遮罩就在画之前做。</p>
+<p>照着官方 <a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-custom-tilelayer/">Custom TileLayer</a> 示例改的骨架：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">MaskTileLayer</span> = <span class="title class_">BaseTileLayer</span>.<span class="title function_">createSubclass</span>(&#123;</span><br><span class="line">  <span class="attr">properties</span>: &#123;</span><br><span class="line">    <span class="attr">urlTemplate</span>: <span class="literal">null</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">getTileUrl</span>(<span class="params">level, row, col</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">urlTemplate</span>.<span class="title function_">replace</span>(<span class="string">&quot;&#123;z&#125;&quot;</span>, level).<span class="title function_">replace</span>(<span class="string">&quot;&#123;x&#125;&quot;</span>, col).<span class="title function_">replace</span>(<span class="string">&quot;&#123;y&#125;&quot;</span>, row);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="title function_">fetchTile</span>(<span class="params">level, row, col, options</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> url = <span class="variable language_">this</span>.<span class="title function_">getTileUrl</span>(level, row, col);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">esriRequest</span>(url, &#123;</span><br><span class="line">      <span class="attr">responseType</span>: <span class="string">&quot;image&quot;</span>,</span><br><span class="line">      <span class="attr">signal</span>: options &amp;&amp; options.<span class="property">signal</span>,</span><br><span class="line">    &#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> image = response.<span class="property">data</span>;</span><br><span class="line">      <span class="keyword">const</span> width = <span class="variable language_">this</span>.<span class="property">tileInfo</span>.<span class="property">size</span>[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">const</span> height = <span class="variable language_">this</span>.<span class="property">tileInfo</span>.<span class="property">size</span>[<span class="number">0</span>];</span><br><span class="line">      <span class="keyword">const</span> canvas = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;canvas&quot;</span>);</span><br><span class="line">      <span class="keyword">const</span> context = canvas.<span class="title function_">getContext</span>(<span class="string">&quot;2d&quot;</span>);</span><br><span class="line">      canvas.<span class="property">width</span> = width;</span><br><span class="line">      canvas.<span class="property">height</span> = height;</span><br><span class="line">      <span class="comment">// 遮罩写在这里：先按 mask 多边形 clip，再画瓦片</span></span><br><span class="line">      context.<span class="title function_">drawImage</span>(image, <span class="number">0</span>, <span class="number">0</span>, width, height);</span><br><span class="line">      <span class="keyword">return</span> canvas;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>这条路最后没有实现，因为 FocusArea 对切片图层同样生效。</p>
+<h3 id="倾斜的mask"><a href="#倾斜的mask" class="headerlink" title="倾斜的mask"></a>倾斜的mask</h3><p>倾斜摄影有专门的 API，<code>IntegratedMeshLayer.modifications</code> 里加一个 <code>type</code> 为 <code>mask</code> 的 <code>SceneModification</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">meshLayer.<span class="property">modifications</span> = <span class="keyword">new</span> <span class="title class_">SceneModifications</span>([</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">SceneModification</span>(&#123; <span class="attr">geometry</span>: polygon, <span class="attr">type</span>: <span class="string">&quot;mask&quot;</span> &#125;),</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+
+<p>只绘制多边形内的部分，几何只支持 Polygon。</p>
+<p>跟前面几条一样，它只管倾斜网格一类图层。</p>
+<h2 id="FocusArea"><a href="#FocusArea" class="headerlink" title="FocusArea"></a>FocusArea</h2><p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/references/core/effects/FocusArea/">FocusArea</a> 是 4.33 加的，挂在 <code>Map</code> 的 <code>focusAreas</code> 上。</p>
+<p>它不是裁掉几何，而是把范围外压暗或者提亮。</p>
+<p>属于渲染层的处理，所以对场景里所有图层都生效，三类图层一个 API 就盖住了。</p>
+<p>创建一个聚焦区并挂到 map 上：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> focusArea = <span class="keyword">new</span> <span class="title class_">FocusArea</span>(&#123;</span><br><span class="line">  <span class="attr">title</span>: <span class="string">&quot;Focus Area&quot;</span>,</span><br><span class="line">  <span class="attr">id</span>: <span class="string">&quot;focusarea-0&quot;</span>,</span><br><span class="line">  <span class="attr">outline</span>: &#123; <span class="attr">color</span>: [<span class="number">255</span>, <span class="number">128</span>, <span class="number">128</span>, <span class="number">0.55</span>] &#125;,</span><br><span class="line">  <span class="attr">geometries</span>: <span class="keyword">new</span> <span class="title class_">Collection</span>([polygon]),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">map.<span class="property">focusAreas</span>.<span class="property">areas</span>.<span class="title function_">add</span>(focusArea);</span><br><span class="line">map.<span class="property">focusAreas</span>.<span class="property">style</span> = <span class="string">&quot;bright&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>style</code> 有 <code>bright</code> 和 <code>dark</code> 两个取值，作用在所有启用的聚焦区之外。</p>
+<p>单个聚焦区的开关用 <code>enabled</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map.<span class="property">focusAreas</span>.<span class="property">areas</span>.<span class="title function_">at</span>(<span class="number">0</span>).<span class="property">enabled</span> = <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+
+<p>配合 <code>SketchViewModel</code> 可以让用户自己画范围，改完把几何塞回去：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sketchViewModel.<span class="title function_">on</span>(<span class="string">&quot;update&quot;</span>, <span class="function">(<span class="params">event</span>) =&gt;</span> &#123;</span><br><span class="line">  focusArea.<span class="property">geometries</span> = <span class="keyword">new</span> <span class="title class_">Collection</span>([event.<span class="property">graphics</span>.<span class="title function_">at</span>(<span class="number">0</span>).<span class="property">geometry</span>]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><code>geometries</code>— 聚焦区的几何，只支持 Polygon，Z 值会被忽略.</li>
+<li><code>outline</code>— 聚焦区的边框，画在地面上.</li>
+<li><code>enabled</code>— 是否启用该聚焦区.</li>
+<li><code>style</code>— 聚焦区外的渲染样式，<code>bright</code> 或 <code>dark</code>，默认 <code>bright</code>.</li>
+</ul>
+<blockquote>
+<p>注：官方示例是地图组件写法，属性挂在 <code>&lt;arcgis-scene&gt;</code> 元素上，等价于 <code>map.focusAreas</code>。</p>
+</blockquote>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><ul>
+<li><code>focusAreas</code> 挂在 <code>Map</code> 上，但只在三维 <code>SceneView</code> 里生效，二维 MapView 没有这个属性。</li>
+<li>FocusArea 只做视觉弱化，数据没有被裁掉，图层查询和统计仍然会返回范围外的要素。</li>
+<li><code>geometries</code> 的几何只支持 Polygon。</li>
+<li><code>clippingArea</code> 的值只是 <code>Extent</code>，范围只能是矩形，而且只在局部场景生效。</li>
+<li>服务端的 <code>clipping</code> 参数要求 ArcGIS Pro 发布的服务，并且服务要支持 <code>supportsClipping</code>。</li>
+</ul>
+<p>官方示例里的效果，聚焦区内保持原色，范围外被提亮：</p>
+<p><img src="https://gitee.com/GeoDaoyu/PicGo/raw/master/blog/focus-area-demo.png" alt="focus-area-demo"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/sample-code/focus-area/">https://developers.arcgis.com/javascript/latest/sample-code/focus-area/</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/sample-code/scene-local/">https://developers.arcgis.com/javascript/latest/sample-code/scene-local/</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/sample-code/featureeffect-geometry/">https://developers.arcgis.com/javascript/latest/sample-code/featureeffect-geometry/</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-integratedmeshlayer-modification/">https://developers.arcgis.com/javascript/latest/sample-code/layers-integratedmeshlayer-modification/</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/javascript/latest/sample-code/layers-custom-tilelayer/">https://developers.arcgis.com/javascript/latest/sample-code/layers-custom-tilelayer/</a></p>
+<p><a target="_blank" rel="noopener" href="https://developers.arcgis.com/rest/services-reference/enterprise/export-map/">https://developers.arcgis.com/rest/services-reference/enterprise/export-map/</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/FocusArea/" rel="tag"># FocusArea</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/02/10/GeoJSONLayer%E4%B8%8D%E8%83%BD%E8%A2%ABhitTest%E9%80%89%E4%B8%AD/" rel="prev" title="GeoJSONLayer不能被hitTest选中">
+                  <i class="fa fa-angle-left"></i> GeoJSONLayer不能被hitTest选中
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2020 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GeoDaoyu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">25k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:33</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

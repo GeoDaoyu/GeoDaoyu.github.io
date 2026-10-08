@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"geodaoyu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="以前构建部署，都是手工操作。先在本机编译打包，然后拷贝到服务器上做部署。 频繁的构建部署，费时烦心，所以学习使用Jenkins来实现自动化。  Jenkins是开源CI&amp;CD软件领导者， 提供超过1000个插件来支持构建、部署、自动化， 满足任何项目的需要。  官网的介绍和文档写的也很详尽了，下面我简单介绍下流程。 本文针对的是Windows。Linux的环境时，一般都是内网，无法通过Gi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Jenkins代码构建">
+<meta property="og:url" content="https://geodaoyu.github.io/2020/07/06/%E4%BD%BF%E7%94%A8Jenkins%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA/index.html">
+<meta property="og:site_name" content="GeoDaoyu">
+<meta property="og:description" content="以前构建部署，都是手工操作。先在本机编译打包，然后拷贝到服务器上做部署。 频繁的构建部署，费时烦心，所以学习使用Jenkins来实现自动化。  Jenkins是开源CI&amp;CD软件领导者， 提供超过1000个插件来支持构建、部署、自动化， 满足任何项目的需要。  官网的介绍和文档写的也很详尽了，下面我简单介绍下流程。 本文针对的是Windows。Linux的环境时，一般都是内网，无法通过Gi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-06T13:25:19.000Z">
+<meta property="article:modified_time" content="2026-10-08T04:52:32.678Z">
+<meta property="article:author" content="GeoDaoyu">
+<meta property="article:tag" content="CI&amp;CD">
+<meta property="article:tag" content="Jenkins">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://geodaoyu.github.io/2020/07/06/%E4%BD%BF%E7%94%A8Jenkins%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://geodaoyu.github.io/2020/07/06/%E4%BD%BF%E7%94%A8Jenkins%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA/","path":"2020/07/06/使用Jenkins代码构建/","title":"使用Jenkins代码构建"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用Jenkins代码构建 | GeoDaoyu</title>
+  
+
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<meta name="referrer" content="no-referrer"/>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GeoDaoyu</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">1 环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">2 下载安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Jenkins%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">3 Jenkins配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E7%AB%AF%E5%8F%A3%E5%8F%B7"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 端口号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 项目构建配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1-%E6%BA%90%E7%A0%81%E7%AE%A1%E7%90%86"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1 源码管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2-%E6%9E%84%E5%BB%BA%E5%99%A8%E8%A7%A6%E5%8F%91"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2 构建器触发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-%E6%9E%84%E5%BB%BA"><span class="nav-number">3.4.</span> <span class="nav-text">3.4 构建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1-npm%E6%9E%84%E5%BB%BA"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.1 npm构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2-gradle%E6%9E%84%E5%BB%BA"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.2 gradle构建</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-%E9%80%9A%E7%9F%A5"><span class="nav-number">3.5.</span> <span class="nav-text">3.5 通知</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text">4 使用总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GeoDaoyu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">GeoDaoyu</p>
+  <div class="site-description" itemprop="description">GeoDaoyu's personal page</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GeoDaoyu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GeoDaoyu" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:geodaoyu@foxmail.com" title="E-Mail → mailto:geodaoyu@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://geodaoyu.github.io/2020/07/06/%E4%BD%BF%E7%94%A8Jenkins%E4%BB%A3%E7%A0%81%E6%9E%84%E5%BB%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="GeoDaoyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GeoDaoyu">
+      <meta itemprop="description" content="GeoDaoyu's personal page">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用Jenkins代码构建 | GeoDaoyu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Jenkins代码构建
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-07-06 21:25:19" itemprop="dateCreated datePublished" datetime="2020-07-06T21:25:19+08:00">2020-07-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-10-08 12:52:32" itemprop="dateModified" datetime="2026-10-08T12:52:32+08:00">2026-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Jenkins/" itemprop="url" rel="index"><span itemprop="name">Jenkins</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>777</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>以前构建部署，都是手工操作。先在本机编译打包，然后拷贝到服务器上做部署。</p>
+<p>频繁的构建部署，费时烦心，所以学习使用Jenkins来实现自动化。</p>
+<blockquote>
+<p>Jenkins是开源CI&amp;CD软件领导者， 提供超过1000个插件来支持构建、部署、自动化， 满足任何项目的需要。</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jenkins.io/">官网</a>的介绍和文档写的也很详尽了，下面我简单介绍下流程。</p>
+<p>本文针对的是Windows。Linux的环境时，一般都是内网，无法通过Git拉取更新。</p>
+<span id="more"></span>
+<h2 id="1-环境准备"><a href="#1-环境准备" class="headerlink" title="1 环境准备"></a>1 环境准备</h2><ul>
+<li>Java</li>
+</ul>
+<p>Jenkins 是基于 Java 的独立程序，所以需要Java环境，这里不细说。</p>
+<ul>
+<li>Node</li>
+</ul>
+<p>主要是前端项目，所以需要Node。</p>
+<ul>
+<li>Git</li>
+</ul>
+<p>使用Git做版本控制。</p>
+<ul>
+<li>Gradle环境</li>
+</ul>
+<p>后端如果使用Maven，则需要配置Gradle环境。</p>
+<h2 id="2-下载安装"><a href="#2-下载安装" class="headerlink" title="2 下载安装"></a>2 下载安装</h2><p>官网提供了两种方式，一种是war包，一种是msi安装包。</p>
+<p>安装包的实质也是war包启动。所以推荐使用war包。</p>
+<p>启动的两种方式：</p>
+<p>一是把jenkins.war放到Tomcat下，作为项目启动。</p>
+<p>二是通过命令行<code>java -jar jenkins.war</code>来启动。</p>
+<h2 id="3-Jenkins配置"><a href="#3-Jenkins配置" class="headerlink" title="3 Jenkins配置"></a>3 Jenkins配置</h2><h3 id="3-1-端口号"><a href="#3-1-端口号" class="headerlink" title="3.1 端口号"></a>3.1 端口号</h3><p>默认端口号是8080，为了避免冲突，一般是需要修改的。</p>
+<p>如果是Tomcat启动，则修改Tomcat的端口号。</p>
+<p>如果是<code>java -jar jenkins.war</code>启动，修改根目录jenkins.xml文件</p>
+<h3 id="3-2-初始化"><a href="#3-2-初始化" class="headerlink" title="3.2 初始化"></a>3.2 初始化</h3><p>浏览器输入<code>http://localhost:8080/jenkins</code>可以进入到Jenkins页面。</p>
+<p>然后是引导式的配置，需要配置一些如管理员账号，安装常用插件等。</p>
+<h3 id="3-3-项目构建配置"><a href="#3-3-项目构建配置" class="headerlink" title="3.3 项目构建配置"></a>3.3 项目构建配置</h3><p>初始化完成后可以进入到Jenkins主页面，新建任务。</p>
+<h4 id="3-3-1-源码管理"><a href="#3-3-1-源码管理" class="headerlink" title="3.3.1 源码管理"></a>3.3.1 源码管理</h4><p>设置源码git地址和git账号，默认分支是master。</p>
+<h4 id="3-3-2-构建器触发"><a href="#3-3-2-构建器触发" class="headerlink" title="3.3.2 构建器触发"></a>3.3.2 构建器触发</h4><p>有多种触发方式，简单介绍两种：</p>
+<ul>
+<li>Poll SCM</li>
+</ul>
+<p>定时器，间隔时间拉取git，如果有新代码则触发构建。</p>
+<ul>
+<li>GitLab Hook</li>
+</ul>
+<p>通过钩子，每次有代码推送，就触发构建。</p>
+<p>需要在GitLab开启Webhooks，在Jenkins中安装 GitLab Hook插件。</p>
+<blockquote>
+<p>修改jenkins配置，在jenkins的 Config System 功能中，取消 Enable authentication for ‘&#x2F;project’ end-point 的选中状态</p>
+</blockquote>
+<h3 id="3-4-构建"><a href="#3-4-构建" class="headerlink" title="3.4 构建"></a>3.4 构建</h3><h4 id="3-4-1-npm构建"><a href="#3-4-1-npm构建" class="headerlink" title="3.4.1 npm构建"></a>3.4.1 npm构建</h4><p>流程：git拉取-&gt;npm打包-&gt;替换部署文件</p>
+<p>示例Shell脚本代码</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br><span class="line">npm install</span><br><span class="line">npm run build</span><br><span class="line"><span class="built_in">Remove-Item</span> C:\Projects\xxx <span class="literal">-Recurse</span> <span class="literal">-Force</span> <span class="literal">-Confirm</span>:<span class="variable">$false</span></span><br><span class="line"><span class="built_in">Copy-Item</span> dist C:\Projects\xxx <span class="literal">-Recurse</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4-2-gradle构建"><a href="#3-4-2-gradle构建" class="headerlink" title="3.4.2 gradle构建"></a>3.4.2 gradle构建</h4><p>流程：git拉取-&gt;gradle打jar包-&gt;停止jar包-&gt;替换文件-&gt;启动新的jar包</p>
+<h3 id="3-5-通知"><a href="#3-5-通知" class="headerlink" title="3.5 通知"></a>3.5 通知</h3><p>构建结果可以通知，常见有邮箱通知和钉钉群通知。</p>
+<blockquote>
+<p>Jenkins需要安装钉钉插件</p>
+</blockquote>
+<h2 id="4-使用总结"><a href="#4-使用总结" class="headerlink" title="4 使用总结"></a>4 使用总结</h2><p>配置一次项目自动构建大概需要大半天时间。</p>
+<p>然后后面就不怎么用管它了。</p>
+<p>我理解的自动构建的实质就是，在服务器上放了一个”金老头”，然后帮你把手动操作的构建部署做一遍。</p>
+<p>如果构建失败，可以在Jenkins页面查看日志，排查问题。但是一般直接重新构建就能成功。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Jenkins/" rel="tag"># Jenkins</a>
+              <a href="/tags/CI-CD/" rel="tag"># CI&CD</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/06/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%8D%82%E6%B1%97%E6%B2%BB%E7%96%97%E9%A3%8E%E5%AF%92%E6%84%9F%E5%86%92/" rel="prev" title="记一次捂汗治疗风寒感冒">
+                  <i class="fa fa-angle-left"></i> 记一次捂汗治疗风寒感冒
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/06/ArcGIS-JS-API%E5%8A%A0%E8%BD%BD%E5%A4%A9%E5%9C%B0%E5%9B%BE/" rel="next" title="ArcGIS-JS-API加载天地图">
+                  ArcGIS-JS-API加载天地图 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2020 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GeoDaoyu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">25k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:33</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

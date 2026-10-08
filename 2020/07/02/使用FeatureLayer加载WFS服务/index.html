@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"geodaoyu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="ArcGIS JS API 在当前（4.15版本）提供有WebTileLayer、WMSLayer、WMTSLayer等图层类，但并没有提供加载WFS服务的图层类。所以使用FeatureLayer来实现加载。  WFS，Web Feature Service，网络要素服务">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用FeatureLayer加载WFS服务">
+<meta property="og:url" content="https://geodaoyu.github.io/2020/07/02/%E4%BD%BF%E7%94%A8FeatureLayer%E5%8A%A0%E8%BD%BDWFS%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="GeoDaoyu">
+<meta property="og:description" content="ArcGIS JS API 在当前（4.15版本）提供有WebTileLayer、WMSLayer、WMTSLayer等图层类，但并没有提供加载WFS服务的图层类。所以使用FeatureLayer来实现加载。  WFS，Web Feature Service，网络要素服务">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-02T12:03:29.000Z">
+<meta property="article:modified_time" content="2026-10-08T04:52:32.678Z">
+<meta property="article:author" content="GeoDaoyu">
+<meta property="article:tag" content="ArcGIS JS API">
+<meta property="article:tag" content="FeatureLayer">
+<meta property="article:tag" content="OGC">
+<meta property="article:tag" content="WFS">
+<meta property="article:tag" content="XML">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://geodaoyu.github.io/2020/07/02/%E4%BD%BF%E7%94%A8FeatureLayer%E5%8A%A0%E8%BD%BDWFS%E6%9C%8D%E5%8A%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://geodaoyu.github.io/2020/07/02/%E4%BD%BF%E7%94%A8FeatureLayer%E5%8A%A0%E8%BD%BDWFS%E6%9C%8D%E5%8A%A1/","path":"2020/07/02/使用FeatureLayer加载WFS服务/","title":"使用FeatureLayer加载WFS服务"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用FeatureLayer加载WFS服务 | GeoDaoyu</title>
+  
+
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<meta name="referrer" content="no-referrer"/>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GeoDaoyu</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WFS%E8%AF%B7%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">WFS请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#GetCapabilities"><span class="nav-number">2.1.</span> <span class="nav-text">GetCapabilities</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GetFeature"><span class="nav-number">2.2.</span> <span class="nav-text">GetFeature</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90XML"><span class="nav-number">3.</span> <span class="nav-text">解析XML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96FeatureLayer"><span class="nav-number">4.</span> <span class="nav-text">实例化FeatureLayer</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GeoDaoyu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">GeoDaoyu</p>
+  <div class="site-description" itemprop="description">GeoDaoyu's personal page</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">59</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GeoDaoyu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GeoDaoyu" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:geodaoyu@foxmail.com" title="E-Mail → mailto:geodaoyu@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://geodaoyu.github.io/2020/07/02/%E4%BD%BF%E7%94%A8FeatureLayer%E5%8A%A0%E8%BD%BDWFS%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="GeoDaoyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GeoDaoyu">
+      <meta itemprop="description" content="GeoDaoyu's personal page">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用FeatureLayer加载WFS服务 | GeoDaoyu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用FeatureLayer加载WFS服务
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-07-02 20:03:29" itemprop="dateCreated datePublished" datetime="2020-07-02T20:03:29+08:00">2020-07-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-10-08 12:52:32" itemprop="dateModified" datetime="2026-10-08T12:52:32+08:00">2026-10-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ArcGIS-JS-API/" itemprop="url" rel="index"><span itemprop="name">ArcGIS JS API</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>288</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>ArcGIS JS API 在当前（4.15版本）提供有WebTileLayer、WMSLayer、WMTSLayer等图层类，但并没有提供加载WFS服务的图层类。所以使用FeatureLayer来实现加载。</p>
+<blockquote>
+<p>WFS，Web Feature Service，网络要素服务</p>
+</blockquote>
+<span id="more"></span>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>手动构造FeatureLayer的source 属性。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">st=&gt;start: Start</span><br><span class="line">req=&gt;operation: WFS请求</span><br><span class="line">xml=&gt;operation: 解析XML</span><br><span class="line">feature=&gt;operation: 实例化FeatureLayer</span><br><span class="line">e=&gt;end</span><br><span class="line">st-&gt;req-&gt;xml-&gt;feature-&gt;e</span><br></pre></td></tr></table></figure>
+
+<h2 id="WFS请求"><a href="#WFS请求" class="headerlink" title="WFS请求"></a>WFS请求</h2><h3 id="GetCapabilities"><a href="#GetCapabilities" class="headerlink" title="GetCapabilities"></a>GetCapabilities</h3><p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>是否必须</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SERVICE</td>
+<td>Y</td>
+<td>WFS</td>
+</tr>
+<tr>
+<td>REQUEST&#x3D;GetCapabilities</td>
+<td>Y</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>请求示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">http://www.someserver.com/wfs?</span><br><span class="line"></span><br><span class="line">SERVICE=WFS&amp;</span><br><span class="line"></span><br><span class="line">REQUEST=GetCapabilities</span><br></pre></td></tr></table></figure>
+
+<h3 id="GetFeature"><a href="#GetFeature" class="headerlink" title="GetFeature"></a>GetFeature</h3><p>参数说明：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>是否必须</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VERSION</td>
+<td>Y</td>
+<td>1.1.0</td>
+</tr>
+<tr>
+<td>SERVICE</td>
+<td>Y</td>
+<td>WFS</td>
+</tr>
+<tr>
+<td>REQUEST&#x3D;GetFeature</td>
+<td>Y</td>
+<td></td>
+</tr>
+<tr>
+<td>TYPENAME</td>
+<td>Y</td>
+<td></td>
+</tr>
+<tr>
+<td>OUTPUTFORMAT</td>
+<td></td>
+<td>text&#x2F;xml; subtype&#x3D;gml&#x2F;3.1.1</td>
+</tr>
+<tr>
+<td>BBOX</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>FILTER</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SORTBY</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>MAXFEATURES</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PROPERTYNAME</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>SRSNAME</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>FEATUREID</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>EXPIRY</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>RESULTTYPE</td>
+<td></td>
+<td>results</td>
+</tr>
+<tr>
+<td>FEATUREVERSION</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>请求示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">http://www.someserver.com/wfs？</span><br><span class="line"></span><br><span class="line">SERVICE=WFS&amp;</span><br><span class="line"></span><br><span class="line">VERSION=1.1.0&amp;</span><br><span class="line"></span><br><span class="line">REQUEST=GetFeature&amp;</span><br><span class="line"></span><br><span class="line">PROPERTYNAME=InWaterA_1M/wkbGeom,InWaterA_1M/tileId&amp;</span><br><span class="line"></span><br><span class="line">TYPENAME=InWaterA_1M&amp;</span><br><span class="line"></span><br><span class="line">FILTER=InWaterA_1M/wkbGeom</span><br></pre></td></tr></table></figure>
+
+<h2 id="解析XML"><a href="#解析XML" class="headerlink" title="解析XML"></a>解析XML</h2><p>从返回的XML中解析数据，构造Features数组。</p>
+<p>解析过程示例代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> parser = <span class="keyword">new</span> <span class="title class_">DOMParser</span>();</span><br><span class="line"><span class="keyword">const</span> xml = parser.<span class="title function_">parseFromString</span>(response, <span class="string">&#x27;text/xml&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> htmlCollection = xml.<span class="title function_">getElementsByTagName</span>(<span class="string">&#x27;wfs:FeatureCollection&#x27;</span>);</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = htmlCollection.<span class="property">length</span>; i &lt; len; i++) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(htmlCollection[i].<span class="property">innerHTML</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Features数组：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> features = [</span><br><span class="line"> &#123;</span><br><span class="line">   <span class="attr">geometry</span>: &#123;</span><br><span class="line">     <span class="attr">type</span>: <span class="string">&quot;point&quot;</span>,</span><br><span class="line">     <span class="attr">x</span>: -<span class="number">100</span>,</span><br><span class="line">     <span class="attr">y</span>: <span class="number">38</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="attr">attributes</span>: &#123;</span><br><span class="line">     <span class="title class_">ObjectID</span>: <span class="number">1</span>,</span><br><span class="line">     <span class="title class_">DepArpt</span>: <span class="string">&quot;KATL&quot;</span>,</span><br><span class="line">     <span class="title class_">MsgTime</span>: <span class="title class_">Date</span>.<span class="title function_">now</span>(),</span><br><span class="line">     <span class="title class_">FltId</span>: <span class="string">&quot;UAL1&quot;</span></span><br><span class="line">   &#125;</span><br><span class="line"> &#125;,</span><br><span class="line"> ...</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<h2 id="实例化FeatureLayer"><a href="#实例化FeatureLayer" class="headerlink" title="实例化FeatureLayer"></a>实例化FeatureLayer</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> layer = <span class="keyword">new</span> <span class="title class_">FeatureLayer</span>(&#123;</span><br><span class="line">  <span class="attr">source</span>: features,  <span class="comment">// autocast as a Collection of new Graphic()</span></span><br><span class="line">  <span class="attr">objectIdField</span>: <span class="string">&quot;ObjectID&quot;</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/XML/" rel="tag"># XML</a>
+              <a href="/tags/WFS/" rel="tag"># WFS</a>
+              <a href="/tags/FeatureLayer/" rel="tag"># FeatureLayer</a>
+              <a href="/tags/OGC/" rel="tag"># OGC</a>
+              <a href="/tags/ArcGIS-JS-API/" rel="tag"># ArcGIS JS API</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/02/XML%E5%9F%BA%E7%A1%80/" rel="prev" title="XML基础">
+                  <i class="fa fa-angle-left"></i> XML基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/07/03/SpringBoot%E4%B8%8B%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5/" rel="next" title="SpringBoot下的增删改查">
+                  SpringBoot下的增删改查 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2020 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GeoDaoyu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">25k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:33</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
