@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.2">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"geodaoyu.github.io","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.29.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="Nginx 的日志分两类：access_log 记录每个请求，error_log 记录 Nginx 自身的错误。默认 nginx.conf 里那段 log_format main 加 access_log，就是最常用的起点。 12345log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx基础-6:日志配置">
+<meta property="og:url" content="https://geodaoyu.github.io/2026/11/25/Nginx%E5%9F%BA%E7%A1%80-6-%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="GeoDaoyu">
+<meta property="og:description" content="Nginx 的日志分两类：access_log 记录每个请求，error_log 记录 Nginx 自身的错误。默认 nginx.conf 里那段 log_format main 加 access_log，就是最常用的起点。 12345log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&amp;q">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-11-25T12:50:00.000Z">
+<meta property="article:modified_time" content="2026-11-27T04:21:29.793Z">
+<meta property="article:author" content="GeoDaoyu">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://geodaoyu.github.io/2026/11/25/Nginx%E5%9F%BA%E7%A1%80-6-%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://geodaoyu.github.io/2026/11/25/Nginx%E5%9F%BA%E7%A1%80-6-%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE/","path":"2026/11/25/Nginx基础-6-日志配置/","title":"Nginx基础-6:日志配置"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Nginx基础-6:日志配置 | GeoDaoyu</title>
+  
+
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.5.0/search.js" integrity="sha256-xFC6PJ82SL9b3WkGjFavNiA9gm5z6UBxWPiu4CYjptg=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+<meta name="referrer" content="no-referrer"/>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">GeoDaoyu</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E7%B1%BB%E6%97%A5%E5%BF%97"><span class="nav-number">1.</span> <span class="nav-text">两类日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-format%EF%BC%9A%E5%AE%9A%E4%B9%89%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">log_format：定义格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%90%E5%AD%97%E6%AE%B5%E6%8B%86%E8%A7%A3-main"><span class="nav-number">3.</span> <span class="nav-text">逐字段拆解 main</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%AE%BF%E9%97%AE%E6%97%A5%E5%BF%97"><span class="nav-number">4.</span> <span class="nav-text">配置访问日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E5%86%99%E5%85%A5"><span class="nav-number">4.1.</span> <span class="nav-text">缓冲写入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%89%E6%9D%A1%E4%BB%B6%E8%AE%B0%E5%BD%95"><span class="nav-number">4.2.</span> <span class="nav-text">按条件记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E9%87%8C%E8%BE%93%E5%87%BA%E5%88%B0%E6%A0%87%E5%87%86%E8%BE%93%E5%87%BA"><span class="nav-number">4.3.</span> <span class="nav-text">容器里输出到标准输出</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%94%99%E8%AF%AF%E6%97%A5%E5%BF%97"><span class="nav-number">5.</span> <span class="nav-text">配置错误日志</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81"><span class="nav-number">6.</span> <span class="nav-text">验证</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GeoDaoyu"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">GeoDaoyu</p>
+  <div class="site-description" itemprop="description">GeoDaoyu's personal page</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">55</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">65</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GeoDaoyu" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GeoDaoyu" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:geodaoyu@foxmail.com" title="E-Mail → mailto:geodaoyu@foxmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://geodaoyu.github.io/2026/11/25/Nginx%E5%9F%BA%E7%A1%80-6-%E6%97%A5%E5%BF%97%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="GeoDaoyu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="GeoDaoyu">
+      <meta itemprop="description" content="GeoDaoyu's personal page">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Nginx基础-6:日志配置 | GeoDaoyu">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Nginx基础-6:日志配置
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-11-25 20:50:00" itemprop="dateCreated datePublished" datetime="2026-11-25T20:50:00+08:00">2026-11-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-11-27 12:21:29" itemprop="dateModified" datetime="2026-11-27T12:21:29+08:00">2026-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Nginx/" itemprop="url" rel="index"><span itemprop="name">Nginx</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>4 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>Nginx 的日志分两类：<code>access_log</code> 记录每个请求，<code>error_log</code> 记录 Nginx 自身的错误。默认 <code>nginx.conf</code> 里那段 <code>log_format main</code> 加 <code>access_log</code>，就是最常用的起点。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">access_log  logs/access.log  main;</span><br></pre></td></tr></table></figure>
+
+<p>这段配置只做了两件事：先用 <code>log_format</code> 定义一个名叫 <code>main</code> 的格式，再用 <code>access_log</code> 指定把日志写到 <code>logs/access.log</code>，并采用 <code>main</code> 格式。</p>
+<span id="more"></span>
+<h2 id="两类日志"><a href="#两类日志" class="headerlink" title="两类日志"></a>两类日志</h2><table>
+<thead>
+<tr>
+<th>日志</th>
+<th>指令</th>
+<th>记什么</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>访问日志</td>
+<td><code>access_log</code></td>
+<td>每个请求一行：谁、什么时候、请求了什么、结果如何</td>
+<td><code>logs/access.log</code>，格式 <code>combined</code></td>
+</tr>
+<tr>
+<td>错误日志</td>
+<td><code>error_log</code></td>
+<td>启动、连接、上游、配置等错误和警告</td>
+<td><code>logs/error.log</code>，级别 <code>error</code></td>
+</tr>
+</tbody></table>
+<p>访问日志是排查业务和做统计的主要来源，错误日志用来定位 Nginx 本身的问题。两者配合看，才能还原一次请求的完整过程。</p>
+<h2 id="log-format：定义格式"><a href="#log-format：定义格式" class="headerlink" title="log_format：定义格式"></a>log_format：定义格式</h2><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_format name [escape=default|json|none] string ...;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>只能写在 <code>http</code> 块里。写在 <code>server</code> 或 <code>location</code> 里会报 <code>&quot;log_format&quot; directive is not allowed here</code>。</li>
+<li><code>name</code> 自己起，后面由 <code>access_log</code> 引用。</li>
+<li>格式串由普通字符和变量拼成，变量以 <code>$</code> 开头；多行写法是用空格拼接多个引号字符串，最终还是一整行。</li>
+<li><code>escape</code> 控制变量里的引号和特殊字符怎么转义，默认 <code>default</code>（非 ASCII、特殊字符转成 <code>\xXX</code>）；要输出 JSON 时用 <code>escape=json</code>。</li>
+<li>某个变量在当前请求里没有值（比如没有 Referer），会记成 <code>-</code>。</li>
+</ul>
+<p>Nginx 自带一个 <code>combined</code> 格式，内容和 <code>main</code> 几乎一样，只是少了 <code>$http_x_forwarded_for</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">log_format combined &#x27;$remote_addr - $remote_user [$time_local] &#x27;</span><br><span class="line">                    &#x27;&quot;$request&quot; $status $body_bytes_sent &#x27;</span><br><span class="line">                    &#x27;&quot;$http_referer&quot; &quot;$http_user_agent&quot;&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>所以 <code>access_log logs/access.log;</code> 不写格式名时，用的就是 <code>combined</code>。</p>
+<h2 id="逐字段拆解-main"><a href="#逐字段拆解-main" class="headerlink" title="逐字段拆解 main"></a>逐字段拆解 main</h2><p>一行日志长这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">192.168.1.20 - - [25/Nov/2026:20:31:07 +0800] &quot;GET /api/user?id=1 HTTP/1.1&quot; 200 532 &quot;https://example.com/&quot; &quot;Mozilla/5.0 ...&quot; &quot;203.0.113.9&quot;</span><br></pre></td></tr></table></figure>
+
+<p>对照格式串：</p>
+<table>
+<thead>
+<tr>
+<th>变量</th>
+<th>含义</th>
+<th>上面这行的值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>$remote_addr</code></td>
+<td>与服务端直接建立连接的客户端 IP</td>
+<td><code>192.168.1.20</code></td>
+</tr>
+<tr>
+<td><code>$remote_user</code></td>
+<td>HTTP Basic 认证的用户名，没有就是 <code>-</code></td>
+<td><code>-</code></td>
+</tr>
+<tr>
+<td><code>$time_local</code></td>
+<td>本地时间，Common Log Format</td>
+<td><code>[25/Nov/2026:20:31:07 +0800]</code></td>
+</tr>
+<tr>
+<td><code>$request</code></td>
+<td>请求行：方法 + 路径（含参数）+ 协议</td>
+<td><code>&quot;GET /api/user?id=1 HTTP/1.1&quot;</code></td>
+</tr>
+<tr>
+<td><code>$status</code></td>
+<td>响应状态码</td>
+<td><code>200</code></td>
+</tr>
+<tr>
+<td><code>$body_bytes_sent</code></td>
+<td>响应体字节数，不含响应头</td>
+<td><code>532</code></td>
+</tr>
+<tr>
+<td><code>$http_referer</code></td>
+<td>来源页面</td>
+<td><code>&quot;https://example.com/&quot;</code></td>
+</tr>
+<tr>
+<td><code>$http_user_agent</code></td>
+<td>客户端 UA</td>
+<td><code>&quot;Mozilla/5.0 ...&quot;</code></td>
+</tr>
+<tr>
+<td><code>$http_x_forwarded_for</code></td>
+<td>代理链上的客户端 IP，直连时是 <code>-</code></td>
+<td><code>&quot;203.0.113.9&quot;</code></td>
+</tr>
+</tbody></table>
+<p>几点容易混淆的：</p>
+<ul>
+<li><code>$body_bytes_sent</code> 不含响应头，<code>$bytes_sent</code> 含响应头，做流量统计时要注意用哪个。</li>
+<li>请求经过反向代理后，<code>$remote_addr</code> 是上一跳代理的 IP，真实客户端 IP 要看 <code>$http_x_forwarded_for</code>（或配合 <code>realip</code> 模块改写 <code>$remote_addr</code>）。</li>
+<li><code>$request</code> 带查询参数，密码、token 之类的敏感参数会原样落盘；只想要路径可以用 <code>$uri</code>（不含参数）。</li>
+</ul>
+<h2 id="配置访问日志"><a href="#配置访问日志" class="headerlink" title="配置访问日志"></a>配置访问日志</h2><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">access_log path [format [buffer=size] [gzip[=level]] [flush=time] [if=condition]];</span><br><span class="line">access_log off;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上下文：<code>http</code>、<code>server</code>、<code>location</code>、<code>if in location</code>、<code>limit_except</code>，所以可以全局记一份，某个 location 单独记一份。</li>
+<li>同一层级可以写多条 <code>access_log</code>，同时输出到多个文件或 syslog。</li>
+<li>不写 <code>format</code> 就用 <code>combined</code>。</li>
+<li><code>access_log off;</code> 关闭当前层级的访问日志。</li>
+</ul>
+<h3 id="缓冲写入"><a href="#缓冲写入" class="headerlink" title="缓冲写入"></a>缓冲写入</h3><p>高并发下每条日志一次写盘开销不小，可以开缓冲：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">access_log logs/access.log main buffer=32k flush=5s;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>buffer=32k</code>：攒够 32K 再写。</li>
+<li><code>flush=5s</code>：即使没攒满，最多 5 秒也落盘一次。</li>
+<li><code>gzip</code>：写入前压缩，默认 64K 缓冲、压缩级别 1，<code>zcat</code> 可以直接读。<code>buffer</code> 和 <code>gzip</code> 不要同时写，<code>gzip</code> 本身就带缓冲。</li>
+<li>缓冲的代价是日志有延迟，nginx 退出或重新打开日志文件时才会把剩余内容刷出去，排查正在发生的故障时可以先不加缓冲。</li>
+</ul>
+<h3 id="按条件记录"><a href="#按条件记录" class="headerlink" title="按条件记录"></a>按条件记录</h3><p>健康检查、探针请求会刷掉大量无意义的日志，用 <code>map</code> 排除：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">map $request_uri $loggable &#123;</span><br><span class="line">    ~^/healthz   0;</span><br><span class="line">    default      1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">access_log logs/access.log main if=$loggable;</span><br></pre></td></tr></table></figure>
+
+<p><code>if</code> 的值为 <code>0</code> 或空字符串时不记录。</p>
+<h3 id="容器里输出到标准输出"><a href="#容器里输出到标准输出" class="headerlink" title="容器里输出到标准输出"></a>容器里输出到标准输出</h3><p>容器环境下一般不写文件，直接交给 Docker 收集：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">access_log /dev/stdout main;</span><br><span class="line">error_log  /dev/stderr warn;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置错误日志"><a href="#配置错误日志" class="headerlink" title="配置错误日志"></a>配置错误日志</h2><p>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log file [level];</span><br></pre></td></tr></table></figure>
+
+<p>级别从低到高：<code>debug</code>、<code>info</code>、<code>notice</code>、<code>warn</code>、<code>error</code>、<code>crit</code>、<code>alert</code>、<code>emerg</code>。默认是 <code>error</code>，只记错误；排查问题时临时开到 <code>notice</code> 或 <code>info</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error_log logs/error.log notice;</span><br></pre></td></tr></table></figure>
+
+<p><code>debug</code> 需要编译时带 <code>--with-debug</code>，否则写了也不会有 debug 输出。生产环境不要长期开 <code>info</code> 以上，日志量和磁盘都扛不住。</p>
+<p><code>error_log</code> 可以写在 <code>main</code>、<code>http</code>、<code>server</code>、<code>location</code>，每个 server 单独记一个文件时很好用。</p>
+<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>改完配置先检查语法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br><span class="line">nginx -s reload</span><br><span class="line">tail -f logs/access.log</span><br></pre></td></tr></table></figure>
+
+<p>访问一次页面，确认新增的一行字段符合预期。统计状态码分布：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;&#123;print $9&#125;&#x27; logs/access.log | sort | uniq -c | sort -rn</span><br></pre></td></tr></table></figure>
+
+<p>只看 5xx：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">awk &#x27;$9 &gt;= 500&#x27; logs/access.log</span><br></pre></td></tr></table></figure>
+
+<p>日志字段定得好，排查时就少猜很多。默认的 <code>main</code> 够用，但至少补上 <code>$request_time</code>，后面排查慢请求会省很多事。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/11/16/%E5%8C%85%E9%A5%BA%E5%AD%90%E4%B8%8E%E5%80%9F%E5%81%87%E4%BF%AE%E7%9C%9F/" rel="prev" title="包饺子与借假修真">
+                  <i class="fa fa-angle-left"></i> 包饺子与借假修真
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/11/27/dsh%20%E5%AE%9A%E6%97%B6%E5%8F%91%E9%80%81%E6%8F%92%E4%BB%B6/" rel="next" title="dsh 定时发送插件">
+                  dsh 定时发送插件 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2020 – 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">GeoDaoyu</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="Word count total">29k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="Reading time total">1:47</span>
+  </span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
